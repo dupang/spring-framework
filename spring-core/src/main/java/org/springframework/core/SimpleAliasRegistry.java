@@ -32,6 +32,8 @@ import org.springframework.util.StringValueResolver;
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * implementations.
  *
+ * AliasRegistry接口的简单实现，作为BeanDefinitionRegistry的基类实现。
+ *
  * @author Juergen Hoeller
  * @since 2.5.2
  */
@@ -68,6 +70,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	/**
 	 * Return whether alias overriding is allowed.
 	 * Default is {@code true}.
+	 *
+	 * 返回是否允许覆盖别名，默认是true
 	 */
 	protected boolean allowAliasOverriding() {
 		return true;
@@ -75,6 +79,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	/**
 	 * Determine whether the given name has the given alias registered.
+	 * 判断是否给定的名字有已经注册的别名
 	 * @param name the name to check
 	 * @param alias the alias to look for
 	 * @since 4.2.1
@@ -114,6 +119,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	/**
 	 * Transitively retrieve all aliases for the given name.
+	 * 传递地检索出给定名字的所有别名。比如对于d检索出du,然后再检索du的别名dup，再检查dup的别名dupa。一直传递下去。
 	 * @param name the target name to find aliases for
 	 * @param result the resulting aliases list
 	 */
@@ -174,6 +180,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 * Check whether the given name points back to the given alias as an alias
 	 * in the other direction already, catching a circular reference upfront
 	 * and throwing a corresponding IllegalStateException.
+	 *
+	 * 检查是否给定的名字指向给定的别名同时作为其它的别名，比如d -> du  du -> dup    dup -> d这样的
 	 * @param name the candidate name
 	 * @param alias the candidate alias
 	 * @see #registerAlias
