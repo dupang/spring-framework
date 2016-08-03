@@ -72,6 +72,9 @@ import org.springframework.util.xml.DomUtils;
  * {@link BeanDefinitionParser BeanDefinitionParsers} or
  * {@link BeanDefinitionDecorator BeanDefinitionDecorators}.
  *
+ * 用来解析XML格式的bean 定义的有状态的代理类。实际上被主要的解析器和任务扩展的BeanDefinitionParser
+ * 或BeanDefinitionDecorator来使用。
+ *
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Rod Johnson
