@@ -151,6 +151,10 @@ public abstract class StringUtils {
 	 * <p>More specifically, this method returns {@code true} if the
 	 * {@code String} is not {@code null}, its length is greater than 0,
 	 * and it contains at least one non-whitespace character.
+	 *
+	 * 查看给定的String是否包含真实的文本。更具体地说，如果这个String不为null,它的长度大于0,
+	 * 和它包含至少一个非空白的字符就返回true,
+	 *
 	 * @param str the {@code String} to check (may be {@code null})
 	 * @return {@code true} if the {@code String} is not {@code null}, its
 	 * length is greater than 0, and it does not contain whitespace only
