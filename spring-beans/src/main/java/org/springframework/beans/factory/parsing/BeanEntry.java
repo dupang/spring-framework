@@ -19,6 +19,8 @@ package org.springframework.beans.factory.parsing;
 /**
  * {@link ParseState} entry representing a bean definition.
  *
+ * ParseState元素表示一个bean定义。
+ *
  * @author Rob Harrop
  * @since 2.0
  */
@@ -29,6 +31,8 @@ public class BeanEntry implements ParseState.Entry {
 
 	/**
 	 * Creates a new instance of {@link BeanEntry} class.
+	 *
+	 * 创建一个新的BeanEntry类实例。
 	 * @param beanDefinitionName the name of the associated bean definition
 	 */
 	public BeanEntry(String beanDefinitionName) {
