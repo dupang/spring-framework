@@ -23,6 +23,7 @@ import org.springframework.beans.factory.parsing.DefaultsDefinition;
  * level in a standard Spring XML bean definition document:
  * {@code default-lazy-init}, {@code default-autowire}, etc.
  *
+ * 简单的JavaBean持有默认值。在一个标准的SpringXML bean定义文档中的beans层次指定的。
  * @author Juergen Hoeller
  * @since 2.0.2
  */

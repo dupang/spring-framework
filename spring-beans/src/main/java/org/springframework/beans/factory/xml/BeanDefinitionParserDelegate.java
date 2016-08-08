@@ -247,6 +247,9 @@ public class BeanDefinitionParserDelegate {
 	 * Stores all used bean names so we can enforce uniqueness on a per
 	 * beans-element basis. Duplicate bean ids/names may not exist within the
 	 * same level of beans element nesting, but may be duplicated across levels.
+	 *
+	 * 存储所有被使用的bean名称，所以我们可以加强唯一性在每一个bean元素的基础上。重复的bean id/name可能不存在于
+	 * 相同层级的bean元素嵌套里，但是可能在跨层次的时候是重复的。
 	 */
 	private final Set<String> usedNames = new HashSet<>();
 
@@ -417,6 +420,8 @@ public class BeanDefinitionParserDelegate {
 	 * Parses the supplied {@code <bean>} element. May return {@code null}
 	 * if there were errors during parse. Errors are reported to the
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
+	 *
+	 * 解析提供的bean元素。可能返回null,如果在解析的过程当中出错。错误被报告给ProblemReporter。
 	 */
 	public BeanDefinitionHolder parseBeanDefinitionElement(Element ele, BeanDefinition containingBean) {
 		String id = ele.getAttribute(ID_ATTRIBUTE);
@@ -429,6 +434,7 @@ public class BeanDefinitionParserDelegate {
 		}
 
 		String beanName = id;
+		//如果没有id属性，并且aliases不为空，那么就从aliases里取出一个当作id。
 		if (!StringUtils.hasText(beanName) && !aliases.isEmpty()) {
 			beanName = aliases.remove(0);
 			if (logger.isDebugEnabled()) {
@@ -481,6 +487,7 @@ public class BeanDefinitionParserDelegate {
 	/**
 	 * Validate that the specified bean name and aliases have not been used already
 	 * within the current level of beans element nesting.
+	 * 验证指定的bean名称和别名没有被使用在当前层次的bean元素中。
 	 */
 	protected void checkNameUniqueness(String beanName, List<String> aliases, Element beanElement) {
 		String foundName = null;
@@ -501,6 +508,7 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Parse the bean definition itself, without regard to name or aliases. May return
+	 * 解析bean定义本身，不管name或别名。可能返回null如果在解析bean定义的过程当中出问题。
 	 * {@code null} if problems occurred during the parsing of the bean definition.
 	 */
 	public AbstractBeanDefinition parseBeanDefinitionElement(
@@ -554,6 +562,9 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Apply the attributes of the given bean element to the given bean * definition.
+	 *
+	 * 应用给定bean元素的属性到给定的bean定义上面
+	 *
 	 * @param ele bean declaration element
 	 * @param beanName bean name
 	 * @param containingBean containing bean definition
@@ -643,6 +654,7 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Create a bean definition for the given class name and parent name.
+	 * 用给定的类名和父类名创建一个bean定义。
 	 * @param className the name of the bean class
 	 * @param parentName the name of the bean's parent bean
 	 * @return the newly created bean definition
@@ -1436,6 +1448,10 @@ public class BeanDefinitionParserDelegate {
 	 * <p>The default implementation uses {@link Node#getNamespaceURI}.
 	 * Subclasses may override the default implementation to provide a
 	 * different namespace identification mechanism.
+	 *
+	 * 获取指定节点的命名空间的URL。默认实现使用Node.getNamespaceURI().
+	 * 子类可以覆盖默认的实现来提供一个不同的命名空间识别机械。
+	 *
 	 * @param node the node
 	 */
 	public String getNamespaceURI(Node node) {
@@ -1447,6 +1463,10 @@ public class BeanDefinitionParserDelegate {
 	 * <p>The default implementation calls {@link Node#getLocalName}.
 	 * Subclasses may override the default implementation to provide a
 	 * different mechanism for getting the local name.
+	 *
+	 * 获取提供的节点的local名字。默认的实现调用Node.getLocalName().
+	 * 子类可以覆盖默认的实现来提供一个不同的获取地址名字的机制。
+	 *
 	 * @param node the {@code Node}
 	 */
 	public String getLocalName(Node node) {
@@ -1459,6 +1479,9 @@ public class BeanDefinitionParserDelegate {
 	 * {@link Node#getNodeName()} and {@link Node#getLocalName()}.
 	 * <p>Subclasses may override the default implementation to provide a different
 	 * mechanism for comparing node names.
+	 *
+	 * 判断提供的节点的名字是否和提供的名字相等。默认的实现是检查提供的名字和Node.getNodeName()对比和Node.getLocalName()。
+	 * 字类可以覆盖默认的实现来提供不同的机制来对比节点名字。
 	 * @param node the node to compare
 	 * @param desiredName the name to check for
 	 */
