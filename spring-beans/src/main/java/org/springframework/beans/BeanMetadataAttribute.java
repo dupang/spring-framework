@@ -23,6 +23,8 @@ import org.springframework.util.ObjectUtils;
  * Holder for a key-value style attribute that is part of a bean definition.
  * Keeps track of the definition source in addition to the key-value pair.
  *
+ * key-value形式的属性持有者是bean定义的一部分。除了key-value对之外跟踪定义源。
+ *
  * @author Juergen Hoeller
  * @since 2.5
  */
@@ -37,6 +39,9 @@ public class BeanMetadataAttribute implements BeanMetadataElement {
 
 	/**
 	 * Create a new AttributeValue instance.
+	 *
+	 * 创建一个新的AttributeValue实例
+	 *
 	 * @param name the name of the attribute (never {@code null})
 	 * @param value the value of the attribute (possibly before type conversion)
 	 */
