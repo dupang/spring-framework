@@ -82,10 +82,16 @@ import org.springframework.util.StringUtils;
  * {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory
  * based on bean definition objects.
  *
+ * BeanDefinitionRegistry和ListableBeanFactory接口的默认实现:基于bean 定义对象的
+ * 成熟的bean工厂。
+ *
  * <p>Typical usage is registering all bean definitions first (possibly read
  * from a bean definition file), before accessing beans. Bean definition lookup
  * is therefore an inexpensive operation in a local bean definition table,
  * operating on pre-built bean definition metadata objects.
+ *
+ * 典型的使用方法是首先注册所有的bean定义(可能从一个bean定义文件中读取),在访问bean之前。Bean
+ * 定义寻找因此是一个廉价的操作在本地bean定义表中，在预构造好的bean定义元数据对象上。
  *
  * <p>Can be used as a standalone bean factory, or as a superclass for custom
  * bean factories. Note that readers for specific bean definition formats are
@@ -93,10 +99,17 @@ import org.springframework.util.StringUtils;
  * see for example {@link PropertiesBeanDefinitionReader} and
  * {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
  *
+ * 可以被用作单独的bean工厂，或者作为自定义的bean工厂的父类。注意对于特定bean定义格式的读取器以、
+ * 通常被单独地实现而不是作为bean工厂的字类：例如参考:PropertiesBeanDefinitionReader和
+ * XmlBeanDefinitionReader
+ *
  * <p>For an alternative implementation of the
  * {@link org.springframework.beans.factory.ListableBeanFactory} interface,
  * have a look at {@link StaticListableBeanFactory}, which manages existing
  * bean instances rather than creating new ones based on bean definitions.
+ *
+ * 对于另一个ListableBeanFactory接口的实现，看一看StaticListableBeanFactory，它
+ * 管理正在存在的bean实例而不是基于bean定义新创建一个。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -128,13 +141,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 
 	/** Map from serialized id to factory instance */
+	/** 序列化id和工厂实例的映射 */
 	private static final Map<String, Reference<DefaultListableBeanFactory>> serializableFactories =
 			new ConcurrentHashMap<>(8);
 
 	/** Optional id for this factory, for serialization purposes */
+	/** 这个工厂的可选的id,用于序列化目的 */
 	private String serializationId;
 
 	/** Whether to allow re-registration of a different definition with the same name */
+	/** */
 	private boolean allowBeanDefinitionOverriding = true;
 
 	/** Whether to allow eager class loading even for lazy-init beans */
