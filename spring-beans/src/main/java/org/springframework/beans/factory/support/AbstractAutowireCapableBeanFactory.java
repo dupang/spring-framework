@@ -85,10 +85,16 @@ import org.springframework.util.StringUtils;
  * Implements the {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}
  * interface in addition to AbstractBeanFactory's {@link #createBean} method.
  *
+ * 抽象的bean工厂超类实现默认的bean创建，用被RootBeanDefinition类指定的全部功能。
+ * 除了实现了AbstractBeanFactory的createBean的方法还实现了AutowireCapableBeanFactory的接口。
+ *
  * <p>Provides bean creation (with constructor resolution), property population,
  * wiring (including autowiring), and initialization. Handles runtime bean
  * references, resolves managed collections, calls initialization methods, etc.
  * Supports autowiring constructors, properties by name, and properties by type.
+ *
+ * 提供bean创建(用构造器解析)，属性封装，织入(包括自动织入)，和初始化。处理运行时bean引用，解析管理的
+ * 集合，调用初始化方法，等待。支持自动织入的构造器，通过名字的属性自动注入，和通过类型的属性自动注入。
  *
  * <p>The main template method to be implemented by subclasses is
  * {@link #resolveDependency(DependencyDescriptor, String, Set, TypeConverter)},
@@ -96,11 +102,18 @@ import org.springframework.util.StringUtils;
  * its bean definitions, matching beans will typically be implemented through such
  * a search. For other factory styles, simplified matching algorithms can be implemented.
  *
+ * 被子类实现的主要模板方法是resolveDependency(DependencyDescriptor, String, Set, TypeConverter)，
+ * 被用来通过类型自动注入。如果factory能够搜索它的bean定义，匹配的bean将通常被实现通过这个搜索，对于其它的
+ * 工厂类型，简单的匹配逻辑可以被实现。
+ *
  * <p>Note that this class does <i>not</i> assume or implement bean definition
  * registry capabilities. See {@link DefaultListableBeanFactory} for an implementation
  * of the {@link org.springframework.beans.factory.ListableBeanFactory} and
  * {@link BeanDefinitionRegistry} interfaces, which represent the API and SPI
  * view of such a factory, respectively.
+ *
+ * 注意这个类不假设或实现bean定义注册能力。参考DefaultListableBeanFactory关于ListableBeanFactory和BeanDefinitionRegistry接口的实现，
+ * 它们分别代表了API和SPI视图。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -118,29 +131,36 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		implements AutowireCapableBeanFactory {
 
 	/** Strategy for creating bean instances */
+	/** 创建bean实例的策略 */
 	private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
 	/** Resolver strategy for method parameter names */
+	/**方法参数名字的解析策略 */
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
 	/** Whether to automatically try to resolve circular references between beans */
+	/** 是否自动地试图解析bean之间的循环引用 */
 	private boolean allowCircularReferences = true;
 
 	/**
 	 * Whether to resort to injecting a raw bean instance in case of circular reference,
 	 * even if the injected bean eventually got wrapped.
+	 * 是否采用注入一个未处理的bean实例当循环引用的时候，即使被注入的bean最终被包装起来。
 	 */
 	private boolean allowRawInjectionDespiteWrapping = false;
 
 	/**
 	 * Dependency types to ignore on dependency check and autowire, as Set of
 	 * Class objects: for example, String. Default is none.
+	 * 在依赖检查和自动注入的时候忽略依赖的类型，作为类对象的集合:例如，String默认是null。
 	 */
 	private final Set<Class<?>> ignoredDependencyTypes = new HashSet<>();
 
 	/**
 	 * Dependency interfaces to ignore on dependency check and autowire, as Set of
 	 * Class objects. By default, only the BeanFactory interface is ignored.
+	 *  在依赖检查和自动注入的时候忽略依赖的接口，作为类对象的集合:默认地只有BeanFactory接口被
+	 *  忽略。
 	 */
 	private final Set<Class<?>> ignoredDependencyInterfaces = new HashSet<>();
 
@@ -150,12 +170,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			new ConcurrentHashMap<>(16);
 
 	/** Cache of filtered PropertyDescriptors: bean Class -> PropertyDescriptor array */
+	/** 被过滤的属性描述符的缓存:bean类 --> PropertyDescriptor数组 */
 	private final ConcurrentMap<Class<?>, PropertyDescriptor[]> filteredPropertyDescriptorsCache =
 			new ConcurrentHashMap<>(256);
 
 
 	/**
 	 * Create a new AbstractAutowireCapableBeanFactory.
+	 *
+	 * 创建一个新的AbstractAutowireCapableBeanFactory
 	 */
 	public AbstractAutowireCapableBeanFactory() {
 		super();
@@ -166,6 +189,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * Create a new AbstractAutowireCapableBeanFactory with the given parent.
+	 * 用给定的父来创建一个新的AbstractAutowireCapableBeanFactory
 	 * @param parentBeanFactory parent bean factory, or {@code null} if none
 	 */
 	public AbstractAutowireCapableBeanFactory(BeanFactory parentBeanFactory) {
