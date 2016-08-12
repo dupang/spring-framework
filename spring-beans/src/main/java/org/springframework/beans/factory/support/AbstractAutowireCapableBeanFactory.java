@@ -201,6 +201,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	/**
 	 * Set the instantiation strategy to use for creating bean instances.
 	 * Default is CglibSubclassingInstantiationStrategy.
+	 * 设置用于创建bean实例的初始化策略，默认是CglibSubclassingInstantiationStrategy
 	 * @see CglibSubclassingInstantiationStrategy
 	 */
 	public void setInstantiationStrategy(InstantiationStrategy instantiationStrategy) {
@@ -209,6 +210,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * Return the instantiation strategy to use for creating bean instances.
+	 * 返回用于创建bean实例的初始化策略
 	 */
 	protected InstantiationStrategy getInstantiationStrategy() {
 		return this.instantiationStrategy;
@@ -218,6 +220,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * Set the ParameterNameDiscoverer to use for resolving method parameter
 	 * names if needed (e.g. for constructor names).
 	 * <p>Default is a {@link DefaultParameterNameDiscoverer}.
+	 * 设置用于解析方法参数名字(如果需要)的ParameterNameDiscoverer,(例如为了构造器名字)。
+	 * 默认是DefaultParameterNameDiscoverer
+	 *
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer) {
 		this.parameterNameDiscoverer = parameterNameDiscoverer;
@@ -226,6 +231,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	/**
 	 * Return the ParameterNameDiscoverer to use for resolving method parameter
 	 * names if needed.
+	 * 返回用来解析方法参数名字的ParameterNameDiscoverer，如果需要。
 	 */
 	protected ParameterNameDiscoverer getParameterNameDiscoverer() {
 		return this.parameterNameDiscoverer;
@@ -243,6 +249,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * <p><b>NOTE:</b> It is generally recommended to not rely on circular references
 	 * between your beans. Refactor your application logic to have the two beans
 	 * involved delegate to a third bean that encapsulates their common logic.
+	 *
+	 * 设置是否允许bean之间的循环引用 - 并且自动地试图解决它们。
+	 * 注意循环引用解决意为着其中的一个bean将接收一个到另一个bean的引用，而这个bean还没有完全初始化。
+	 * 这可能导致微妙或不那么微妙的副作用在初始化的时候;尽管它确实可以正常工作在很多场景下。
+	 * 默认是"true"。关闭这个选项来抛出异常当遇到一个循环引用，完全不允许它们出现循环引用。
 	 */
 	public void setAllowCircularReferences(boolean allowCircularReferences) {
 		this.allowCircularReferences = allowCircularReferences;
@@ -260,6 +271,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * (arguably unclean) default behavior.
 	 * <p><b>NOTE:</b> It is generally recommended to not rely on circular references
 	 * between your beans, in particular with auto-proxying involved.
+	 *
+	 * 设置是否允许bean实例的不做修饰地注入到藉此其它bean的属性里面，
 	 * @see #setAllowCircularReferences
 	 */
 	public void setAllowRawInjectionDespiteWrapping(boolean allowRawInjectionDespiteWrapping) {
