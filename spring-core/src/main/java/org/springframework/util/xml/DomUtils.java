@@ -106,6 +106,8 @@ public abstract class DomUtils {
 
 	/**
 	 * Utility method that returns the first child element value identified by its name.
+	 *
+	 * 返回由它的名字确定的第一个孩子元素值的工具方法。
 	 * @param ele the DOM element to analyze
 	 * @param childEleName the child element name to look for
 	 * @return the extracted text value, or {@code null} if no child element found

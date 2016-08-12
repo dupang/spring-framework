@@ -33,8 +33,11 @@ import org.springframework.util.ObjectUtils;
 /**
  * Holder for constructor argument values, typically as part of a bean definition.
  *
+ * 构造参数值的持有者，通常作为bean定义的一部分。
+ *
  * <p>Supports values for a specific index in the constructor argument list
  * as well as for generic argument matches by type.
+ * 支持构造参数列表的特定顺序的值，也支持被类型匹配的通用参数。
  *
  * @author Juergen Hoeller
  * @since 09.11.2003
@@ -49,12 +52,14 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Create a new empty ConstructorArgumentValues object.
+	 * 创建一个新的空ConstructorArgumentValues对象。
 	 */
 	public ConstructorArgumentValues() {
 	}
 
 	/**
 	 * Deep copy constructor.
+	 * 深copy构造器
 	 * @param original the ConstructorArgumentValues to copy
 	 */
 	public ConstructorArgumentValues(ConstructorArgumentValues original) {
@@ -65,9 +70,15 @@ public class ConstructorArgumentValues {
 	/**
 	 * Copy all given argument values into this object, using separate holder
 	 * instances to keep the values independent from the original object.
+	 *
+	 * copy所有给定的参数值到这个对象中，使用不同的持有者实例来持有值。
+	 *
 	 * <p>Note: Identical ValueHolder instances will only be registered once,
 	 * to allow for merging and re-merging of argument value definitions. Distinct
 	 * ValueHolder instances carrying the same content are of course allowed.
+	 *
+	 * 相同的ValueHolder实例将只被注册一次，允许合并和再次合并参数值定义。持有相同的内容的
+	 * 不同的ValueHolder实例当然是允许的。
 	 */
 	public void addArgumentValues(ConstructorArgumentValues other) {
 		if (other != null) {
@@ -85,6 +96,9 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Add an argument value for the given index in the constructor argument list.
+	 *
+	 * 增加一个给定的构造参数列表的索引的值。
+	 *
 	 * @param index the index in the constructor argument list
 	 * @param value the argument value
 	 */
@@ -117,6 +131,9 @@ public class ConstructorArgumentValues {
 	 * Add an argument value for the given index in the constructor argument list,
 	 * merging the new value (typically a collection) with the current value
 	 * if demanded: see {@link org.springframework.beans.Mergeable}.
+	 *
+	 * 在构造参数列表中增加一个给定索引的参数值。如果需要合并新值到当前值。
+	 *
 	 * @param key the index in the constructor argument list
 	 * @param newValue the argument value in the form of a ValueHolder
 	 */
@@ -133,6 +150,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Check whether an argument value has been registered for the given index.
+	 * 检查是否一个参数值已经被注册到给定的索引。
 	 * @param index the index in the constructor argument list
 	 */
 	public boolean hasIndexedArgumentValue(int index) {
@@ -141,6 +159,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Get argument value for the given index in the constructor argument list.
+	 * 获取构造参数列表中的给定索引的值。
 	 * @param index the index in the constructor argument list
 	 * @param requiredType the type to match (can be {@code null} to match
 	 * untyped values only)
@@ -266,7 +285,7 @@ public class ConstructorArgumentValues {
 	 * ignoring argument values that have already been used in the current
 	 * resolution process.
 	 * @param requiredType the type to match (can be {@code null} to find
-	 * an arbitrary next generic argument value)
+	 * an arbitrary next ConstructorArgumentValuesgeneric argument value)
 	 * @param requiredName the name to match (can be {@code null} to not
 	 * match argument values by name, or empty String to match any name)
 	 * @param usedValueHolders a Set of ValueHolder objects that have already been used
