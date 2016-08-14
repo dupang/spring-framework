@@ -352,7 +352,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					catch (IllegalStateException ex) {
 						throw new BeanCreationException(beanName,
 								"Scope '" + scopeName + "' is not active for the current thread; consider " +
-								"defining a scoped proxy for this bean if you intend to refer to it from a singleton",
+										"defining a scoped proxy for this bean if you intend to refer to it from a singleton",
 								ex);
 					}
 				}
@@ -938,6 +938,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * merging a child bean definition with its parent if necessary.
 	 * <p>This {@code getMergedBeanDefinition} considers bean definition
 	 * in ancestors as well.
+	 *
+	 * 返回一个给定的bean名字的'合并'的BeanDefinition，合并子bean定义和它的
+	 * 父bean定义如果有必要。这个getMergedBeanDefinition也考虑祖先的bean定义。
+	 *
 	 * @param name the name of the bean to retrieve the merged definition for
 	 * (may be an alias)
 	 * @return a (potentially merged) RootBeanDefinition for the given bean
@@ -1081,6 +1085,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return the bean name, stripping out the factory dereference prefix if necessary,
 	 * and resolving aliases to canonical names.
+	 * 返回bean名字，剥离出factory引用前缀如果有必要，并且解析别名为常规命名。
 	 * @param name the user-specified name
 	 * @return the transformed bean name
 	 */
@@ -1164,6 +1169,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return a merged RootBeanDefinition, traversing the parent bean definition
 	 * if the specified bean corresponds to a child bean definition.
+	 * 返回一个合并的RootBeanDefinition，穿越父bean定义如果指定的bean对应于一个
+	 * 子bean定义。
 	 * @param beanName the name of the bean to retrieve the merged definition for
 	 * @return a (potentially merged) RootBeanDefinition for the given bean
 	 * @throws NoSuchBeanDefinitionException if there is no bean with the given name
@@ -1195,6 +1202,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return a RootBeanDefinition for the given bean, by merging with the
 	 * parent if the given bean's definition is a child bean definition.
+	 * 返回一个给定bean的RootBeanDefinition，通过和父合并如果给定的
+	 * bean的定义是一个子bean定义。
 	 * @param beanName the name of the bean definition
 	 * @param bd the original bean definition (Root/ChildBeanDefinition)
 	 * @param containingBd the containing bean definition in case of inner bean,
@@ -1239,7 +1248,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							else {
 								throw new NoSuchBeanDefinitionException(bd.getParentName(),
 										"Parent name '" + bd.getParentName() + "' is equal to bean name '" + beanName +
-										"': cannot be resolved without an AbstractBeanFactory parent");
+												"': cannot be resolved without an AbstractBeanFactory parent");
 							}
 						}
 					}
@@ -1322,10 +1331,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Resolve the bean class for the specified bean definition,
 	 * resolving a bean class name into a Class reference (if necessary)
 	 * and storing the resolved Class in the bean definition for further use.
-	 *
-	 * 为指定的bean定义解析bean类，把一个bean类名解析成一个Class引用(如果必需)。
-	 * 并且在bean定义中存储解析好的Class，以便以后使用。
-	 *
 	 * @param mbd the merged bean definition to determine the class for
 	 * @param beanName the name of the bean (for error handling purposes)
 	 * @param typesToMatch the types to match in case of internal type matching purposes
@@ -1369,8 +1374,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		if (!ObjectUtils.isEmpty(typesToMatch)) {
 			// When just doing type checks (i.e. not creating an actual instance yet),
 			// use the specified temporary class loader (e.g. in a weaving scenario).
-			// 当只是做类型检查(也就是说，还不是真正地创建实例)，
-			// 使用指定的暂时的类加载器(例如，在织入的场景)
 			ClassLoader tempClassLoader = getTempClassLoader();
 			if (tempClassLoader != null) {
 				classLoaderToUse = tempClassLoader;
@@ -1409,7 +1412,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Evaluate the given String as contained in a bean definition,
 	 * potentially resolving it as an expression.
-	 *
 	 * @param value the value to check
 	 * @param beanDefinition the bean definition that the value comes from
 	 * @return the resolved value
@@ -1569,6 +1571,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Get the object for the given bean instance, either the bean
 	 * instance itself or its created object in case of a FactoryBean.
+	 *
+	 * 获取给定bean实现的对象，bean实例本身或它创建的对象如果是FactoryBean的时候。
+	 *
 	 * @param beanInstance the shared bean instance
 	 * @param name name that may include factory dereference prefix
 	 * @param beanName the canonical bean name
@@ -1579,6 +1584,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			Object beanInstance, String name, String beanName, RootBeanDefinition mbd) {
 
 		// Don't let calling code try to dereference the factory if the bean isn't a factory.
+		// 不要让调用的代码试图间接引用factory如果bean不是一个factory.
 		if (BeanFactoryUtils.isFactoryDereference(name) && !(beanInstance instanceof FactoryBean)) {
 			throw new BeanIsNotAFactoryException(transformedBeanName(name), beanInstance.getClass());
 		}
@@ -1586,6 +1592,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
 		// If it's a FactoryBean, we use it to create a bean instance, unless the
 		// caller actually wants a reference to the factory.
+		// 现在我们有了bean 实例，它可以是普通的bean或者是FactoryBean。
+		// 如果是FactoryBean，我们使用它来创建一个bean实例，除非调用者实际上想要一个factory的引用。
 		if (!(beanInstance instanceof FactoryBean) || BeanFactoryUtils.isFactoryDereference(name)) {
 			return beanInstance;
 		}
@@ -1682,6 +1690,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * just amounts to a local hash lookup: The operation is therefore part of the
 	 * public interface there. The same implementation can serve for both this
 	 * template method and the public interface method in that case.
+	 *
+	 * 用给定的名字检查是否这个bean工厂锥一个bean定义。
+	 * 不用考虑任何这个工厂可能参与的层次结构。
+	 * 被containsBean调用当没有缓存的单例被找到。
+	 * 根据实例bean工厂的实现的特性，这个操作可能是很昂贵的(例如，因为在外部注册器的目录搜寻)。
+	 * 然而对于listable的bean工厂，这通常等于一个本地的hash查找:操作在这里因此是公共接口。
+	 * 同样的实现可以服务于这个模板方法和公共的接口方法在这样的情况下。
+	 *
 	 * @param beanName the name of the bean to look for
 	 * @return if this bean factory contains a bean definition with the given name
 	 * @see #containsBean
@@ -1699,6 +1715,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * just amounts to a local hash lookup: The operation is therefore part of the
 	 * public interface there. The same implementation can serve for both this
 	 * template method and the public interface method in that case.
+	 *
+	 * 返回给定bean名字的bean定义。子类通常实现缓存，当这个方法被这个类调用当bean
+	 * 定义元数据需要的时候。
+	 * 根据实例化bean工厂的实现的特性，这个操作能是很昂贵的(例如，因为在外部注册器的目录搜寻)。
+	 * 然而对于listable的bean工厂，这通常等于一个本地的hash查找：操作在这里因此是公共接口。
+	 * 同样的实现可以服务于这个模板方法和公共的接口方法在这样的情况下。
+	 *
 	 * @param beanName the name of the bean to find a definition for
 	 * @return the BeanDefinition for this prototype name (never {@code null})
 	 * @throws org.springframework.beans.factory.NoSuchBeanDefinitionException
