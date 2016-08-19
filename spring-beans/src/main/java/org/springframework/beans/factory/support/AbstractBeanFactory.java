@@ -85,6 +85,10 @@ import org.springframework.util.StringValueResolver;
  * as base class for bean factory implementations which obtain bean definitions
  * from some backend resource (where bean definition access is an expensive operation).
  *
+ * BeanFactory实现的抽象基类，提供了ConfigurableBeanFactory SPI的所有功能。经
+ * 不要认为是一个listable的bean工厂:因此也可以被用来作为bean工厂实现的基类来从后端资源获取bean定义
+ * (这里的bean定义访问是一个昂贵的操作)。
+ *
  * <p>This class provides a singleton cache (through its base class
  * {@link org.springframework.beans.factory.support.DefaultSingletonBeanRegistry},
  * singleton/prototype determination, {@link org.springframework.beans.factory.FactoryBean}
@@ -94,12 +98,18 @@ import org.springframework.util.StringValueResolver;
  * hierarchy (delegating to the parent in case of an unknown bean), through implementing
  * the {@link org.springframework.beans.factory.HierarchicalBeanFactory} interface.
  *
+ * 这个类提供了一个单例的缓存(通过它的基类DefaultSingletonBeanRegistry)，singleton/prototype确定，FactoryBean
+ * 处理，别名，子bean定义的bean定义合并，和bean消亡(DisposableBean接口，自定义销毁方法)。还有，
+ * 它可以管理一个bean工厂的层次结构(委托给父一旦未知的bean),通过实现HierarchicalBeanFactory接口。
+ *
  * <p>The main template methods to be implemented by subclasses are
  * {@link #getBeanDefinition} and {@link #createBean}, retrieving a bean definition
  * for a given bean name and creating a bean instance for a given bean definition,
  * respectively. Default implementations of those operations can be found in
  * {@link DefaultListableBeanFactory} and {@link AbstractAutowireCapableBeanFactory}.
  *
+ * 被子类要实现的主要的模板方法是getBeanDefinition和createBean，抽取一个给定bean名称的bean定义和创建一个给定bean定义的bean实例，
+ * 这些方法默认实现可以在DefaultListableBeanFactory和AbstractAutowireCapableBeanFactory类中找到。
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Costin Leau
@@ -113,71 +123,91 @@ import org.springframework.util.StringValueResolver;
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
 	/** Parent bean factory, for bean inheritance support */
+	/** 父bean工厂，为了支持bean继承*/
 	private BeanFactory parentBeanFactory;
 
 	/** ClassLoader to resolve bean class names with, if necessary */
+	/** 来解析bean类名的类加载器 */
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
 	/** ClassLoader to temporarily resolve bean class names with, if necessary */
+	/** 用于暂时解析bean类名的类加载器 */
 	private ClassLoader tempClassLoader;
 
 	/** Whether to cache bean metadata or rather reobtain it for every access */
+	/** 是否缓存bean元数据或每次访问时重新获取 */
 	private boolean cacheBeanMetadata = true;
 
 	/** Resolution strategy for expressions in bean definition values */
+	/** 表示bean定义值的解决策略 */
 	private BeanExpressionResolver beanExpressionResolver;
 
 	/** Spring ConversionService to use instead of PropertyEditors */
+	/** 代替PropertyEditors的Spring ConversionService*/
 	private ConversionService conversionService;
 
 	/** Custom PropertyEditorRegistrars to apply to the beans of this factory */
+	/** 应用到这个工厂的bean的自定义PropertyEditorRegistrars */
 	private final Set<PropertyEditorRegistrar> propertyEditorRegistrars =
 			new LinkedHashSet<>(4);
 
 	/** A custom TypeConverter to use, overriding the default PropertyEditor mechanism */
+	/** 准备使用的自定义TypeConverter，覆盖默认的PropertyEditor机制 */
 	private TypeConverter typeConverter;
 
 	/** Custom PropertyEditors to apply to the beans of this factory */
+	/** 应用到这个工厂的bean的自定义PropertyEditors */
 	private final Map<Class<?>, Class<? extends PropertyEditor>> customEditors =
 			new HashMap<>(4);
 
 	/** String resolvers to apply e.g. to annotation attribute values */
+	/** 应用的String解析器，例如，为了注解属性值 */
 	private final List<StringValueResolver> embeddedValueResolvers = new LinkedList<>();
 
 	/** BeanPostProcessors to apply in createBean */
+	/** createBean上应用的BeanPostProcessors */
 	private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
 	/** Indicates whether any InstantiationAwareBeanPostProcessors have been registered */
+	/** 表示是否已经注册了任何InstantiationAwareBeanPostProcessors */
 	private boolean hasInstantiationAwareBeanPostProcessors;
 
 	/** Indicates whether any DestructionAwareBeanPostProcessors have been registered */
+	/** 表示是否已经注册了任何DestructionAwareBeanPostProcessors */
 	private boolean hasDestructionAwareBeanPostProcessors;
 
 	/** Map from scope identifier String to corresponding Scope */
+	/** scope标识符字符串和相应的Scope的映射 */
 	private final Map<String, Scope> scopes = new LinkedHashMap<>(8);
 
 	/** Security context used when running with a SecurityManager */
+	/** 当和SecurityManager运行时使用的安全上下文 */
 	private SecurityContextProvider securityContextProvider;
 
 	/** Map from bean name to merged RootBeanDefinition */
+	/** bean名字到合并的RootBeanDefinition的映射 */
 	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
 
 	/** Names of beans that have already been created at least once */
+	/** 至少被创建一次的bean的名字 */
 	private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
 
 	/** Names of beans that are currently in creation */
+	/** 当前正在被创建的bean的名字 */
 	private final ThreadLocal<Object> prototypesCurrentlyInCreation =
 			new NamedThreadLocal<>("Prototype beans currently in creation");
 
 
 	/**
 	 * Create a new AbstractBeanFactory.
+	 * 创建一个新的AbstractBeanFactory
 	 */
 	public AbstractBeanFactory() {
 	}
 
 	/**
 	 * Create a new AbstractBeanFactory with the given parent.
+	 * 用给定的新父创建一个新的AbstractBeanFactory
 	 * @param parentBeanFactory parent bean factory, or {@code null} if none
 	 * @see #getBean
 	 */
@@ -188,6 +218,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	//---------------------------------------------------------------------
 	// Implementation of BeanFactory interface
+	// BeanFactory接口的实现
 	//---------------------------------------------------------------------
 
 	@Override
@@ -207,6 +238,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Return an instance, which may be shared or independent, of the specified bean.
+	 * 返回一个实例，它可能是共享的或独立于指定的bean，
 	 * @param name the name of the bean to retrieve
 	 * @param requiredType the required type of the bean to retrieve
 	 * @param args arguments to use when creating a bean instance using explicit arguments
@@ -220,6 +252,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Return an instance, which may be shared or independent, of the specified bean.
+	 * 返回一个实例，它可能是共享的或独立于指定的bean，
 	 * @param name the name of the bean to retrieve
 	 * @param requiredType the required type of the bean to retrieve
 	 * @param args arguments to use when creating a bean instance using explicit arguments
@@ -653,6 +686,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	//---------------------------------------------------------------------
 	// Implementation of HierarchicalBeanFactory interface
+	// HierarchicalBeanFactory接口的实现
 	//---------------------------------------------------------------------
 
 	@Override
@@ -670,6 +704,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	//---------------------------------------------------------------------
 	// Implementation of ConfigurableBeanFactory interface
+	// ConfigurableBeanFactory接口的实现
 	//---------------------------------------------------------------------
 
 	@Override
@@ -738,6 +773,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Return the set of PropertyEditorRegistrars.
+	 * 返回PropertyEditorRegistrars的集合
 	 */
 	public Set<PropertyEditorRegistrar> getPropertyEditorRegistrars() {
 		return this.propertyEditorRegistrars;
@@ -757,6 +793,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Return the map of custom editors, with Classes as keys and PropertyEditor classes as values.
+	 * 返回自定义的编辑器的map,以类作为key并且PropertyEditor类作为值
 	 */
 	public Map<Class<?>, Class<? extends PropertyEditor>> getCustomEditors() {
 		return this.customEditors;
@@ -769,6 +806,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Return the custom TypeConverter to use, if any.
+	 * 返回自定义的TypeConverter，如果有。
 	 * @return the custom TypeConverter, or {@code null} if none specified
 	 */
 	protected TypeConverter getCustomTypeConverter() {
@@ -834,6 +872,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return the list of BeanPostProcessors that will get applied
 	 * to beans created with this factory.
+	 * 返回应用到这个工厂创建的bean的BeanPostProcessors。
 	 */
 	public List<BeanPostProcessor> getBeanPostProcessors() {
 		return this.beanPostProcessors;
@@ -842,6 +881,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return whether this factory holds a InstantiationAwareBeanPostProcessor
 	 * that will get applied to singleton beans on shutdown.
+	 * 返回是否这个工厂持有一个InstantiationAwareBeanPostProcessor将应用到单例的bean在关闭的时候。
 	 * @see #addBeanPostProcessor
 	 * @see org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
 	 */
@@ -852,6 +892,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return whether this factory holds a DestructionAwareBeanPostProcessor
 	 * that will get applied to singleton beans on shutdown.
+	 * * 返回是否这个工厂持有一个DestructionAwareBeanPostProcessor将应用到单例的bean在关闭的时候。
 	 * @see #addBeanPostProcessor
 	 * @see org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor
 	 */
@@ -894,6 +935,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Set the security context provider for this bean factory. If a security manager
 	 * is set, interaction with the user code will be executed using the privileged
 	 * of the provided security context.
+	 * 为这个bean工厂设置安全上下文提供者。如果设置了安全管理者，用户代码将被执行使用提供的安全上下文。
 	 */
 	public void setSecurityContextProvider(SecurityContextProvider securityProvider) {
 		this.securityContextProvider = securityProvider;
@@ -902,6 +944,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Delegate the creation of the access control context to the
 	 * {@link #setSecurityContextProvider SecurityContextProvider}.
+	 *
+	 * 把创建的访问控制上下文委托给setSecurityContextProvider的SecurityContextProvider
 	 */
 	@Override
 	public AccessControlContext getAccessControlContext() {
@@ -990,6 +1034,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return whether the specified prototype bean is currently in creation
 	 * (within the current thread).
+	 * 返回指定的原型bean正在创建(在当前的线程中)
 	 * @param beanName the name of the bean
 	 */
 	protected boolean isPrototypeCurrentlyInCreation(String beanName) {
@@ -1001,6 +1046,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Callback before prototype creation.
 	 * <p>The default implementation register the prototype as currently in creation.
+	 * 原型创建之前的回调函数
+	 * 默认的实现注册为正在创建的原型
 	 * @param beanName the name of the prototype about to be created
 	 * @see #isPrototypeCurrentlyInCreation
 	 */
@@ -1024,7 +1071,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Callback after prototype creation.
+	 * 原型创建之后的回调
 	 * <p>The default implementation marks the prototype as not in creation anymore.
+	 * 默认的实现是标记原型为不再创建
 	 * @param beanName the name of the prototype that has been created
 	 * @see #isPrototypeCurrentlyInCreation
 	 */
@@ -1051,6 +1100,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Destroy the given bean instance (usually a prototype instance
 	 * obtained from this factory) according to the given bean definition.
+	 * 销毁给定的bean实例(通过从这个工厂获取原型实例)根据给定的bean定义
 	 * @param beanName the name of the bean definition
 	 * @param beanInstance the bean instance to destroy
 	 * @param mbd the merged bean definition
@@ -1080,6 +1130,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	//---------------------------------------------------------------------
 	// Implementation methods
+	// 实现的方法
 	//---------------------------------------------------------------------
 
 	/**
@@ -1095,6 +1146,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Determine the original bean name, resolving locally defined aliases to canonical names.
+	 * 判断原始的bean名字，解析本地定义的别名为常规名字。
 	 * @param name the user-specified name
 	 * @return the original bean name
 	 */
@@ -1112,6 +1164,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * and populate bean instances.
 	 * <p>The default implementation delegates to {@link #registerCustomEditors}.
 	 * Can be overridden in subclasses.
+	 * 用注册到这个工厂上的自定义编辑器用初始化给定的BeanWrapper.BeanWrapper将创建并且装配bean实例。
 	 * @param bw the BeanWrapper to initialize
 	 */
 	protected void initBeanWrapper(BeanWrapper bw) {
@@ -1125,6 +1178,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * <p>To be called for BeanWrappers that will create and populate bean
 	 * instances, and for SimpleTypeConverter used for constructor argument
 	 * and factory method type conversion.
+	 * 用注册到这个工厂上的自定义编辑器用初始化给定的PropertyEditorRegistry。
+	 * BeanWrapper将创建并且装配bean实例，并且
 	 * @param registry the PropertyEditorRegistry to initialize
 	 */
 	protected void registerCustomEditors(PropertyEditorRegistry registry) {
@@ -1188,6 +1243,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return a RootBeanDefinition for the given top-level bean, by merging with
 	 * the parent if the given bean's definition is a child bean definition.
+	 * 为给定的最上层的bean返回一个RootBeanDefinition,通过合并父如果给定的bean的定义是孩子bean字义。
+	 *
 	 * @param beanName the name of the bean definition
 	 * @param bd the original bean definition (Root/ChildBeanDefinition)
 	 * @return a (potentially merged) RootBeanDefinition for the given bean
@@ -1288,6 +1345,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Check the given merged bean definition,
 	 * potentially throwing validation exceptions.
+	 * 检查给定的合并过的bean定义，可能抛出校验异常
 	 * @param mbd the merged bean definition to check
 	 * @param beanName the name of the bean
 	 * @param args the arguments for bean creation, if any
@@ -1304,6 +1362,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Remove the merged bean definition for the specified bean,
 	 * recreating it on next access.
+	 * 删除给定的bean的合并的bean定义，在下一次访问的时候重新创建它。
 	 * @param beanName the bean name to clear the merged definition for
 	 */
 	protected void clearMergedBeanDefinition(String beanName) {
@@ -1316,6 +1375,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * <p>Typically triggered after changes to the original bean definitions,
 	 * e.g. after applying a {@code BeanFactoryPostProcessor}. Note that metadata
 	 * for beans which have already been created at this point will be kept around.
+	 * 清除合并的bean定义缓存，删除对完全元数据缓存认为不合适的bean的条目。
+	 * 通常在原始的bean定义改变之后触发，例如在应用BeanFactoryPostProcessor之后。注意在这时候已经被创建
+	 * 的bean的元数据将kept around。
 	 * @since 4.2
 	 */
 	public void clearMetadataCache() {
@@ -1331,6 +1393,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Resolve the bean class for the specified bean definition,
 	 * resolving a bean class name into a Class reference (if necessary)
 	 * and storing the resolved Class in the bean definition for further use.
+	 * 对于指定的bean定义解析bean类，解析一个bean类名为一个类引用(如果有必要)并且存储解析好的Class到类定义里面用于以后使用。
+	 *
 	 * @param mbd the merged bean definition to determine the class for
 	 * @param beanName the name of the bean (for error handling purposes)
 	 * @param typesToMatch the types to match in case of internal type matching purposes
@@ -1412,6 +1476,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Evaluate the given String as contained in a bean definition,
 	 * potentially resolving it as an expression.
+	 * 评估给定的String为包含在bean定义中，可能作为表达式来解析。
 	 * @param value the value to check
 	 * @param beanDefinition the bean definition that the value comes from
 	 * @return the resolved value
@@ -1435,6 +1500,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * handle factory methods and InstantiationAwareBeanPostProcessors.
 	 * It only predicts the bean type correctly for a standard bean.
 	 * To be overridden in subclasses, applying more sophisticated type detection.
+	 * 为指定的bean预测最终的bean类型。被getType和isTypeMatch调用。不用分别地处理FactoryBean，因为
+	 * 它被认为是在处理原始的bean类型。
+	 * 这个实现是简单化因为它不能处理工厂方法和InstantiationAwareBeanPostProcessors。
+	 * 它只能为标准的bean正确地预测bean类型
+	 * 为了在子类中覆盖，应用更复杂的类型检测。
+	 *
 	 * @param beanName the name of the bean
 	 * @param mbd the merged bean definition to determine the type for
 	 * @param typesToMatch the types to match in case of internal type matching purposes
@@ -1450,6 +1521,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Check whether the given bean is defined as a {@link FactoryBean}.
+	 * 检查给定的bean是不是定义为FactoryBean
 	 * @param beanName the name of the bean
 	 * @param mbd the corresponding bean definition
 	 */
@@ -1467,6 +1539,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * trying whether its {@code getObjectType} method already returns a type.
 	 * If no type found, a full FactoryBean creation as performed by this implementation
 	 * should be used as fallback.
+	 * 判断给定的FactoryBean定义的bean类型，尽可能地。只有在对于目标bean没有单例的实例被注册的时候调用，
+	 * 默认的实现创建FactoryBean通过getBean来调用它的getObjectType方法。子类被鼓励去优化这个，通常
+	 * 通过仅仅实例化FactoryBean但是不填充它，试着它的getObjectType方法是否已经返回一个类型。
+	 * 如果没有类型找到，一个安全的FactoryBean创建被这个实现应该作为回调使用。
 	 * @param beanName the name of the bean
 	 * @param mbd the merged bean definition for the bean
 	 * @return the type for the bean if determinable, or {@code null} else
@@ -1506,6 +1582,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Mark the specified bean as already created (or about to be created).
 	 * <p>This allows the bean factory to optimize its caching for repeated
 	 * creation of the specified bean.
+	 * 标记指定的bean已经被创建(或者将被创建)。
+	 * 这允许bean工厂来优化它的指定bean的重复创建的缓存。
+	 *
 	 * @param beanName the name of the bean
 	 */
 	protected void markBeanAsCreated(String beanName) {
@@ -1619,6 +1698,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Determine whether the given bean name is already in use within this factory,
 	 * i.e. whether there is a local bean or alias registered under this name or
 	 * an inner bean created with this name.
+	 * 判断是否给定的bean名字已经在这个工厂中正在使用，例如。是否有一个本地bean或别名被注册到这个名子下或
+	 * 一个内部的bean被创建用这个名子。
+	 *
 	 * @param beanName the name to check
 	 */
 	public boolean isBeanNameInUse(String beanName) {
@@ -1629,6 +1711,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Determine whether the given bean requires destruction on shutdown.
 	 * <p>The default implementation checks the DisposableBean interface as well as
 	 * a specified destroy method and registered DestructionAwareBeanPostProcessors.
+	 * 判断是否给定的bean需要销毁在关闭的时候。
+	 * 默认的实现是检查DisposableBean接口和一个指定的销毁方法和注册DestructionAwareBeanPostProcessors。
+	 *
 	 * @param bean the bean instance to check
 	 * @param mbd the corresponding bean definition
 	 * @see org.springframework.beans.factory.DisposableBean
@@ -1645,6 +1730,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Add the given bean to the list of disposable beans in this factory,
 	 * registering its DisposableBean interface and/or the given destroy method
 	 * to be called on factory shutdown (if applicable). Only applies to singletons.
+	 *
+	 * 增加给定的bean到这个工厂的一次性的列表，注册它的DisposableBean接口和/或给定的销毁方法被调用在工厂关闭的时候。
+	 * 只应用到单例。
 	 * @param beanName the name of the bean
 	 * @param bean the bean instance
 	 * @param mbd the bean definition for the bean
@@ -1738,6 +1826,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * The bean definition will already have been merged with the parent definition
 	 * in case of a child definition.
 	 * <p>All bean retrieval methods delegate to this method for actual bean creation.
+	 * 为给定的合并过的bean定义(和参数)创建一个bean实例。bean定义将已经和父定义合并如果是一个孩子定义。
+	 * 所有的bean抽取方法委托给这个方法来真正地bean创建。
 	 * @param beanName the name of the bean
 	 * @param mbd the merged bean definition for the bean
 	 * @param args explicit arguments to use for constructor or factory method invocation
