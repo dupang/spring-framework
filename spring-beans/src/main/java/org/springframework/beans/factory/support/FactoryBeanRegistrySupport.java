@@ -35,7 +35,9 @@ import org.springframework.beans.factory.FactoryBeanNotInitializedException;
  * {@link org.springframework.beans.factory.FactoryBean} instances,
  * integrated with {@link DefaultSingletonBeanRegistry}'s singleton management.
  *
+ * 需要处理FactoryBean的单例注册器的基类，结合了DefaultSingletonBeanRegistry的单例管理。
  * <p>Serves as base class for {@link AbstractBeanFactory}.
+ * 作为AbstractBeanFactory的基类
  *
  * @author Juergen Hoeller
  * @since 2.5.1
@@ -43,11 +45,13 @@ import org.springframework.beans.factory.FactoryBeanNotInitializedException;
 public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanRegistry {
 
 	/** Cache of singleton objects created by FactoryBeans: FactoryBean name --> object */
+	/**被FactoryBean创建的单例对象的缓存: FactoryBean 名字 --> 对象 */
 	private final Map<String, Object> factoryBeanObjectCache = new ConcurrentHashMap<>(16);
 
 
 	/**
 	 * Determine the type for the given FactoryBean.
+	 * 判断给定FactoryBean的类型
 	 * @param factoryBean the FactoryBean instance to check
 	 * @return the FactoryBean's object type,
 	 * or {@code null} if the type cannot be determined yet
@@ -77,6 +81,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	/**
 	 * Obtain an object to expose from the given FactoryBean, if available
 	 * in cached form. Quick check for minimal synchronization.
+	 * 从给定的FactoryBean中获取暴露的对象，如果在缓存中可以获取。快速地检查为了最小化同步。
 	 * @param beanName the name of the bean
 	 * @return the object obtained from the FactoryBean,
 	 * or {@code null} if not available
@@ -88,6 +93,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
 	/**
 	 * Obtain an object to expose from the given FactoryBean.
+	 * 从给定的FactoryBean中获取一个暴露的对象。
 	 * @param factory the FactoryBean instance
 	 * @param beanName the name of the bean
 	 * @param shouldPostProcess whether the bean is subject to post-processing
@@ -139,6 +145,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
 	/**
 	 * Obtain an object to expose from the given FactoryBean.
+	 * 从给定的FactoryBean中获取一个暴露的对象。
 	 * @param factory the FactoryBean instance
 	 * @param beanName the name of the bean
 	 * @return the object obtained from the FactoryBean
@@ -189,6 +196,9 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	 * The resulting object will get exposed for bean references.
 	 * <p>The default implementation simply returns the given object as-is.
 	 * Subclasses may override this, for example, to apply post-processors.
+	 * 后处理从FactoryBean中获取的对象。结果对象将为bean引用暴露。
+	 * 默认的实现简单地返回给定的对象。
+	 * 字类可以覆盖它，例如，应用后处理器。
 	 * @param object the object obtained from the FactoryBean.
 	 * @param beanName the name of the bean
 	 * @return the object to expose
@@ -200,6 +210,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
 	/**
 	 * Get a FactoryBean for the given bean if possible.
+	 * 为给定的Bean获取一个FactoryBean，如果可能的话。
 	 * @param beanName the name of the bean
 	 * @param beanInstance the corresponding bean instance
 	 * @return the bean instance as FactoryBean
@@ -215,6 +226,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
 	/**
 	 * Overridden to clear the FactoryBean object cache as well.
+	 * 覆盖来清除FactoryBean对象缓存。
 	 */
 	@Override
 	protected void removeSingleton(String beanName) {
@@ -226,6 +238,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	 * Returns the security context for this bean factory. If a security manager
 	 * is set, interaction with the user code will be executed using the privileged
 	 * of the security context returned by this method.
+	 * 返回给定bean工厂的安全上下文。如果设置 了一个安全管理器，用户代码将被使用这个方法返回的特权的安全上下文执行。
 	 * @see AccessController#getContext()
 	 */
 	protected AccessControlContext getAccessControlContext() {
