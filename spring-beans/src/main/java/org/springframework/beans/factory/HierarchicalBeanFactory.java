@@ -24,6 +24,10 @@ package org.springframework.beans.factory;
  * factories that allow setting the parent in a configurable
  * fashion can be found in the ConfigurableBeanFactory interface.
  *
+ * 被可以是层级一部分的bean工厂实现的子接口。
+ * bean工厂的相应的setParentBeanFactory方法允许以一种可配置的方式设置父工厂，
+ * 这种方式可以在ConfigurableBeanFactory接口中发现。
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 07.07.2003
@@ -33,6 +37,7 @@ public interface HierarchicalBeanFactory extends BeanFactory {
 
 	/**
 	 * Return the parent bean factory, or {@code null} if there is none.
+	 * 返回父bean工厂，或null如果没有的话。
 	 */
 	BeanFactory getParentBeanFactory();
 
@@ -41,6 +46,8 @@ public interface HierarchicalBeanFactory extends BeanFactory {
 	 * ignoring beans defined in ancestor contexts.
 	 * <p>This is an alternative to {@code containsBean}, ignoring a bean
 	 * of the given name from an ancestor bean factory.
+	 * 返回是否本地bean工厂包含给定名称的bean。忽略祖先上下文中定义的bean.
+	 * 这个containsBean的替代者，忽略祖先bean工厂中的给定名字的bean.
 	 * @param name the name of the bean to query
 	 * @return whether a bean with the given name is defined in the local factory
 	 * @see BeanFactory#containsBean
