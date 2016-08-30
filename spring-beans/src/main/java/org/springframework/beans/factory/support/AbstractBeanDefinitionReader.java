@@ -36,8 +36,12 @@ import org.springframework.util.Assert;
  * Abstract base class for bean definition readers which implement
  * the {@link BeanDefinitionReader} interface.
  *
+ * 实现了BeanDefinitionReader接口的的bean定义读取的抽象基类。
+ *
  * <p>Provides common properties like the bean factory to work on
  * and the class loader to use for loading bean classes.
+ *
+ * 提供了公用的属性像bean工厂那样和用于加载bean类的类加载器。
  *
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -72,6 +76,13 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * environment will be used by this reader.  Otherwise, the reader will initialize and
 	 * use a {@link StandardEnvironment}. All ApplicationContext implementations are
 	 * EnvironmentCapable, while normal BeanFactory implementations are not.
+	 * 创建给定的bean工厂的AbstractBeanDefinitionReader。
+	 * 如果传入的bean工厂不仅实现了BeanDefinitionRegistry接口而且实现了ResourceLoader接口，它也将被用来作为
+	 * 默认的资源加载器。这通常是ApplicationContext实现的情况。
+	 * 如果给定一个空白的BeanDefinitionRegistry，默认的资源加载器将是一个PathMatchingResourcePatternResolver。
+	 * 如果传入的bean工厂也实现了EnvironmentCapable，它的environment将被这个读取器使用。否则，读取器将初始化并且使用一个
+	 * StandardEnvironment。所有的ApplicationContext实现是EnvironmentCapable，而普通的BeanFactory实现不是。
+	 *
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry
 	 * @see #setResourceLoader
@@ -116,6 +127,12 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * resource pattern resolving through the ResourcePatternResolver interface.
 	 * <p>Setting this to {@code null} suggests that absolute resource loading
 	 * is not available for this bean definition reader.
+	 * 设置资源定位的资源加载器。如果指定了一个ResourcePatternResolver，bean定义读取器将
+	 * 能够解析资源模式为资源数组。
+	 * 默认的是PathMatchingResourcePatternResolver，也能够通过ResourcePatternResolver接口
+	 * 进行资源匹配解析。
+	 * 设置这个为null表示绝对资源加载对这个bean定义的读取器是不可用的。
+	 *
 	 * @see org.springframework.core.io.support.ResourcePatternResolver
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
@@ -134,6 +151,9 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * eagerly but rather to just register bean definitions with class names,
 	 * with the corresponding Classes to be resolved later (or never).
 	 * @see Thread#getContextClassLoader()
+	 *
+	 * 设置这个bean类使用的类加载器。
+	 * 默认的是null,它表示不急切地加载类而是用类名字注册bean定义，对应的类将被随后解析。
 	 */
 	public void setBeanClassLoader(ClassLoader beanClassLoader) {
 		this.beanClassLoader = beanClassLoader;
@@ -148,6 +168,8 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * Set the Environment to use when reading bean definitions. Most often used
 	 * for evaluating profile information to determine which bean definitions
 	 * should be read and which should be omitted.
+	 * 设置当读bean定义的时候使用的Environment。大部分经常被用来计算profile信息来决定那一个bean定义应该被读取
+	 * 和那一个应该被忽略。
 	 */
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
@@ -162,6 +184,8 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * Set the BeanNameGenerator to use for anonymous beans
 	 * (without explicit bean name specified).
 	 * <p>Default is a {@link DefaultBeanNameGenerator}.
+	 * 设置匿名的bean使用的BeanNameGenerator(没有显式地指定bean名称)。
+	 * 默认的是DefaultBeanNameGenerator。
 	 */
 	public void setBeanNameGenerator(BeanNameGenerator beanNameGenerator) {
 		this.beanNameGenerator = (beanNameGenerator != null ? beanNameGenerator : new DefaultBeanNameGenerator());
@@ -192,6 +216,8 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * Load bean definitions from the specified resource location.
 	 * <p>The location can also be a location pattern, provided that the
 	 * ResourceLoader of this bean definition reader is a ResourcePatternResolver.
+	 * 从指定的资源路径加载bean定义。路径也可以是一个路径模式，假如bean定义读取器的资源加载器是一个ResourcePatternResolver。
+	 *
 	 * @param location the resource location, to be loaded with the ResourceLoader
 	 * (or ResourcePatternResolver) of this bean definition reader
 	 * @param actualResources a Set to be filled with the actual Resource objects
