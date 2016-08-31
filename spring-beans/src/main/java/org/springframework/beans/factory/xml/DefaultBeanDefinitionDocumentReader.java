@@ -234,6 +234,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		Set<Resource> actualResources = new LinkedHashSet<>(4);
 
 		// Discover whether the location is an absolute or relative URI
+		// 判断路径是不是一个绝对或相对URI。
 		boolean absoluteLocation = false;
 		try {
 			absoluteLocation = ResourcePatternUtils.isUrl(location) || ResourceUtils.toURI(location).isAbsolute();
@@ -241,9 +242,12 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		catch (URISyntaxException ex) {
 			// cannot convert to an URI, considering the location relative
 			// unless it is the well-known Spring prefix "classpath*:"
+
+			// 不能转换为一个URI,认为路径是相对的除非它是大家熟知的Spring 前缀"classpath*:"。
 		}
 
 		// Absolute or relative?
+		// 绝对 或 相对
 		if (absoluteLocation) {
 			try {
 				int importCount = getReaderContext().getReader().loadBeanDefinitions(location, actualResources);
@@ -258,6 +262,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 		else {
 			// No URL -> considering resource location as relative to the current file.
+			// 不是URL -> 认为资源路径相对于当前文件是相对的。
 			try {
 				int importCount;
 				Resource relativeResource = getReaderContext().getResource().createRelative(location);
