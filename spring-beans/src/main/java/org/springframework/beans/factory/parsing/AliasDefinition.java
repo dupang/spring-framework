@@ -22,6 +22,8 @@ import org.springframework.util.Assert;
 /**
  * Representation of an alias that has been registered during the parsing process.
  *
+ * 表示一个别名已经在解析的过程中被注册过了。
+ *
  * @author Juergen Hoeller
  * @since 2.0
  * @see ReaderEventListener#aliasRegistered(AliasDefinition)
@@ -37,6 +39,7 @@ public class AliasDefinition implements BeanMetadataElement {
 
 	/**
 	 * Create a new AliasDefinition.
+	 * 创建一个新的AliasDefinition。
 	 * @param beanName the canonical name of the bean
 	 * @param alias the alias registered for the bean
 	 */
@@ -46,6 +49,7 @@ public class AliasDefinition implements BeanMetadataElement {
 
 	/**
 	 * Create a new AliasDefinition.
+	 * 创建一个新的AliasDefinition。
 	 * @param beanName the canonical name of the bean
 	 * @param alias the alias registered for the bean
 	 * @param source the source object (may be {@code null})
@@ -61,6 +65,7 @@ public class AliasDefinition implements BeanMetadataElement {
 
 	/**
 	 * Return the canonical name of the bean.
+	 * 返回bean的常规名称。
 	 */
 	public final String getBeanName() {
 		return this.beanName;
@@ -68,6 +73,7 @@ public class AliasDefinition implements BeanMetadataElement {
 
 	/**
 	 * Return the alias registered for the bean.
+	 * 返回为这个bean注册过的别名。
 	 */
 	public final String getAlias() {
 		return this.alias;
