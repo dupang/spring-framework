@@ -28,7 +28,7 @@ import org.springframework.beans.factory.config.BeanReference;
 /**
  * ComponentDefinition based on a standard BeanDefinition, exposing the given bean
  * definition as well as inner bean definitions and bean references for the given bean.
- *
+ * 基于一个标准的BeanDefinition的ComponentDefinition，暴露了给定的bean 定义和内部的bean定义和bean引用。
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0
@@ -42,6 +42,7 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 
 	/**
 	 * Create a new BeanComponentDefinition for the given bean.
+	 * 为给定的bean创建一个新的BeanComponentDefinition。
 	 * @param beanDefinition the BeanDefinition
 	 * @param beanName the name of the bean
 	 */
@@ -52,6 +53,7 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 
 	/**
 	 * Create a new BeanComponentDefinition for the given bean.
+	 * 为给定的bean创建一个新的BeanComponentDefinition。
 	 * @param beanDefinition the BeanDefinition
 	 * @param beanName the name of the bean
 	 * @param aliases alias names for the bean, or {@code null} if none
@@ -63,6 +65,7 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 
 	/**
 	 * Create a new BeanComponentDefinition for the given bean.
+	 * 为给定的bean创建一个新的BeanComponentDefinition。
 	 * @param holder the BeanDefinitionHolder encapsulating the
 	 * bean definition as well as the name of the bean
 	 */
@@ -123,6 +126,8 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 	/**
 	 * This implementation returns this ComponentDefinition's description.
 	 * @see #getDescription()
+	 *
+	 * 这个实现返回这个ComponentDefinition的描述。
 	 */
 	@Override
 	public String toString() {
@@ -132,6 +137,7 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 	/**
 	 * This implementations expects the other object to be of type BeanComponentDefinition
 	 * as well, in addition to the superclass's equality requirements.
+	 * 这个实现假设其它对象是一个BeanComponentDefinition类型，除了超类的同等需求。
 	 */
 	@Override
 	public boolean equals(Object other) {
