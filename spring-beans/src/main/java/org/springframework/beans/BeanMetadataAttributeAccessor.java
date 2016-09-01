@@ -23,6 +23,8 @@ import org.springframework.core.AttributeAccessorSupport;
  * holding attributes as {@link BeanMetadataAttribute} objects in order
  * to keep track of the definition source.
  *
+ * AttributeAccessorSupport的扩展，持有作为BeanMetadataAttribute对象的属性为了追踪
+ * 定义的源。
  * @author Juergen Hoeller
  * @since 2.5
  */
@@ -35,6 +37,8 @@ public class BeanMetadataAttributeAccessor extends AttributeAccessorSupport impl
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
 	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 *
+	 * 为这个元数据元素设置配置源对象。
 	 */
 	public void setSource(Object source) {
 		this.source = source;
@@ -48,6 +52,7 @@ public class BeanMetadataAttributeAccessor extends AttributeAccessorSupport impl
 
 	/**
 	 * Add the given BeanMetadataAttribute to this accessor's set of attributes.
+	 * 增加给定的BeanMetadataAttribute到这个访问器的属性集合中。
 	 * @param attribute the BeanMetadataAttribute object to register
 	 */
 	public void addMetadataAttribute(BeanMetadataAttribute attribute) {
