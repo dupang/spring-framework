@@ -102,6 +102,7 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 		}
 
 		// Inherit Environment if possible
+		// 如果可能就继承Environment
 		if (this.registry instanceof EnvironmentCapable) {
 			this.environment = ((EnvironmentCapable) this.registry).getEnvironment();
 		}
