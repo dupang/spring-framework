@@ -35,15 +35,25 @@ import org.springframework.core.io.ResourceLoader;
  * relative to the resource base of an ApplicationContext), if applicable.
  * Extends {@link DelegatingEntityResolver} to also provide DTD and XSD lookup.
  *
+ * EntityResolver的实现试图通过一个ResourceLoader来解析实体引用(通常，相对于ApplicationContext
+ * 资源根路径),如果可用。
+ * 扩展了DelegatingEntityResolver也提供了DTD和XSD查找。
+ *
  * <p>Allows to use standard XML entities to include XML snippets into an
  * application context definition, for example to split a large XML file
  * into various modules. The include paths can be relative to the
  * application context's resource base as usual, instead of relative
  * to the JVM working directory (the XML parser's default).
  *
+ * 允许使用标准的XML实体来包含XML片断到一个应用上下文定义中，例如分割一个大的XML文件为
+ * 不同的模块。包含路径可以相对于应用上下文的资源根，而不是相对于JVM的工作目录(XML解析的默认)
+ *
  * <p>Note: In addition to relative paths, every URL that specifies a
  * file in the current system root, i.e. the JVM working directory,
  * will be interpreted relative to the application context too.
+ *
+ * 注意:除了相对路径，每一个URL指定一个在当前系统根下的文件，也就是说JVM工作目录，
+ * 将也被解释为相对于应用上下文。
  *
  * @author Juergen Hoeller
  * @since 31.07.2003
@@ -60,6 +70,8 @@ public class ResourceEntityResolver extends DelegatingEntityResolver {
 	/**
 	 * Create a ResourceEntityResolver for the specified ResourceLoader
 	 * (usually, an ApplicationContext).
+	 *
+	 * 为指定的ResourceLoader创建一个ResourceEntityResolver(通常是一个ApplicationContext)。
 	 * @param resourceLoader the ResourceLoader (or ApplicationContext)
 	 * to load XML entity includes with
 	 */

@@ -30,11 +30,17 @@ import org.springframework.core.io.Resource;
  * EntityResolver implementation for the Spring beans DTD,
  * to load the DTD from the Spring class path (or JAR file).
  *
+ * Spring beans DTD的EntityResolver实现，从Spring的class路径中加载
+ * DTD。
+ *
  * <p>Fetches "spring-beans.dtd" from the class path resource
  * "/org/springframework/beans/factory/xml/spring-beans.dtd",
  * no matter whether specified as some local URL that includes "spring-beans"
  * in the DTD name or as "http://www.springframework.org/dtd/spring-beans-2.0.dtd".
  *
+ * 从class路径资源"/org/springframework/beans/factory/xml/spring-beans.dtd"中抓取
+ * "spring-beans.dtd"，不管是否指定了一些包含"spring-beans"的本地URL或
+ * "http://www.springframework.org/dtd/spring-beans-2.0.dtd".
  * @author Juergen Hoeller
  * @author Colin Sampaleanu
  * @since 04.06.2003

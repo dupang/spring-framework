@@ -27,6 +27,7 @@ import org.springframework.util.Assert;
 /**
  * {@link EntityResolver} implementation that delegates to a {@link BeansDtdResolver}
  * and a {@link PluggableSchemaResolver} for DTDs and XML schemas, respectively.
+ * EntityResolver的实现，分别委托给BeansDtdResolver和PluggableSchemaResolver为了DTDs和XML schemas，
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -38,9 +39,11 @@ import org.springframework.util.Assert;
 public class DelegatingEntityResolver implements EntityResolver {
 
 	/** Suffix for DTD files */
+	/** DTD文件的后缀 */
 	public static final String DTD_SUFFIX = ".dtd";
 
 	/** Suffix for schema definition files */
+	/** schema定义文件的后缀 */
 	public static final String XSD_SUFFIX = ".xsd";
 
 
@@ -54,6 +57,9 @@ public class DelegatingEntityResolver implements EntityResolver {
 	 * a default {@link BeansDtdResolver} and a default {@link PluggableSchemaResolver}.
 	 * <p>Configures the {@link PluggableSchemaResolver} with the supplied
 	 * {@link ClassLoader}.
+	 * 创建一个新的DelegatingEntityResolver，它委托一个默认的BeansDtdResolver和
+	 * 一个默认的PluggableSchemaResolver。
+	 * 用提供的ClassLoader配置PluggableSchemaResolver。
 	 * @param classLoader the ClassLoader to use for loading
 	 * (can be {@code null}) to use the default ClassLoader)
 	 */
@@ -65,6 +71,7 @@ public class DelegatingEntityResolver implements EntityResolver {
 	/**
 	 * Create a new DelegatingEntityResolver that delegates to
 	 * the given {@link EntityResolver EntityResolvers}.
+	 * 创建一个新的DelegatingEntityResolver，它委托给指定的EntityResolvers。
 	 * @param dtdResolver the EntityResolver to resolve DTDs with
 	 * @param schemaResolver the EntityResolver to resolve XML schemas with
 	 */

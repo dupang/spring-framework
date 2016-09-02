@@ -37,9 +37,13 @@ import org.springframework.util.CollectionUtils;
  * {@link EntityResolver} implementation that attempts to resolve schema URLs into
  * local {@link ClassPathResource classpath resources} using a set of mappings files.
  *
+ * EntityResolver的实现，试图使用一组映射文件解析schema URL为本地的ClassPathResource。
+ *
  * <p>By default, this class will look for mapping files in the classpath using the pattern:
  * {@code META-INF/spring.schemas} allowing for multiple files to exist on the
  * classpath at any one time.
+ *
+ * 默认的，这个类将使用模式搜寻映射文件:META-INF/spring.schemas.允许任一时刻允许多个文件存在类路径下。
  *
  * The format of {@code META-INF/spring.schemas} is a properties
  * file where each line should be of the form {@code systemId=schema-location}
@@ -47,8 +51,14 @@ import org.springframework.util.CollectionUtils;
  * Since systemId is commonly a URL, one must be careful to escape any ':' characters
  * which are treated as delimiters in properties files.
  *
+ * META-INF/spring.schemas的格式是一个属性文件，它的每一行应该是systemId=schema-location，
+ * 这里的schema-location也应该是一个在类路径下的schema文件。
+ * 因为systemId通常是一个RUL，你应该小心地转义任何':'字符，它在属性文件中被作为分隔符。
+ *
  * <p>The pattern for the mapping files can be overidden using the
  * {@link #PluggableSchemaResolver(ClassLoader, String)} constructor
+ *
+ * 映射文件的模式可以被覆盖使用PluggableSchemaResolver(ClassLoader, String)构造器。
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -59,6 +69,9 @@ public class PluggableSchemaResolver implements EntityResolver {
 	/**
 	 * The location of the file that defines schema mappings.
 	 * Can be present in multiple JAR files.
+	 *
+	 * 定义schema映射的文件地址。
+	 * 可以出现在多个JAR文件中。
 	 */
 	public static final String DEFAULT_SCHEMA_MAPPINGS_LOCATION = "META-INF/spring.schemas";
 
@@ -70,12 +83,14 @@ public class PluggableSchemaResolver implements EntityResolver {
 	private final String schemaMappingsLocation;
 
 	/** Stores the mapping of schema URL -> local schema path */
+	/** 存储schema URL -> 本地schema 路径 的映射 */
 	private volatile Map<String, String> schemaMappings;
 
 
 	/**
 	 * Loads the schema URL -> schema file location mappings using the default
 	 * mapping file pattern "META-INF/spring.schemas".
+	 * 使用默认的映射文件模式"META-INF/spring.schemas"加载schema URL -> schema 文件路径的映射。
 	 * @param classLoader the ClassLoader to use for loading
 	 * (can be {@code null}) to use the default ClassLoader)
 	 * @see PropertiesLoaderUtils#loadAllProperties(String, ClassLoader)
@@ -88,6 +103,8 @@ public class PluggableSchemaResolver implements EntityResolver {
 	/**
 	 * Loads the schema URL -> schema file location mappings using the given
 	 * mapping file pattern.
+	 * 使用给定的映射文件模式加载schema URL -> schema文件路径映射。
+	 *
 	 * @param classLoader the ClassLoader to use for loading
 	 * (can be {@code null}) to use the default ClassLoader)
 	 * @param schemaMappingsLocation the location of the file that defines schema mappings
@@ -132,6 +149,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 
 	/**
 	 * Load the specified schema mappings lazily.
+	 * 懒惰地加载指定的schema映射
 	 */
 	private Map<String, String> getSchemaMappings() {
 		if (this.schemaMappings == null) {
