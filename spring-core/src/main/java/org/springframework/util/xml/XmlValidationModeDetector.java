@@ -88,6 +88,7 @@ public class XmlValidationModeDetector {
 	 */
 	public int detectValidationMode(InputStream inputStream) throws IOException {
 		// Peek into the file to look for DOCTYPE.
+		// 深入文件来寻找DOCTYPE.
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		try {
 			boolean isDtdValidated = false;
@@ -121,6 +122,7 @@ public class XmlValidationModeDetector {
 
 	/**
 	 * Does the content contain the DTD DOCTYPE declaration?
+	 * 是否内容包含DTD DOCTYPE声明？
 	 */
 	private boolean hasDoctype(String content) {
 		return content.contains(DOCTYPE);
@@ -130,6 +132,9 @@ public class XmlValidationModeDetector {
 	 * Does the supplied content contain an XML opening tag. If the parse state is currently
 	 * in an XML comment then this method always returns false. It is expected that all comment
 	 * tokens will have consumed for the supplied content before passing the remainder to this method.
+	 *
+	 * 是否提供的内容包含一个XML打开标签。如果解析状态正在一个XML注释中，那么这个方法总是返回false。它预期所有的注释记号
+	 * 将已经被消费掉在传递剩余内容给这个方法中。
 	 */
 	private boolean hasOpeningTag(String content) {
 		if (this.inComment) {
@@ -145,6 +150,10 @@ public class XmlValidationModeDetector {
 	 * may be empty since the supplied content might be all comment data. For our purposes it is only important
 	 * to strip leading comment content on a line since the first piece of non comment content will be either
 	 * the DOCTYPE declaration or the root element of the document.
+	 *
+	 * 消费给定的String中所有的首位的注释数据和返回剩下的内容，它可能是空的因为提供的内容可能全部是注释数据。我们的目的重要的是除去一行的
+	 * 首位的注释内容，因为第一片非注释的内容将是DOCTYPE声明或文档的根元素。
+	 *
 	 */
 	private String consumeCommentTokens(String line) {
 		if (!line.contains(START_COMMENT) && !line.contains(END_COMMENT)) {
@@ -161,6 +170,7 @@ public class XmlValidationModeDetector {
 	/**
 	 * Consume the next comment token, update the "inComment" flag
 	 * and return the remaining content.
+	 * 消费下一个注释记号，更新"inComment"标记并且返回剩下的内容。
 	 */
 	private String consume(String line) {
 		int index = (this.inComment ? endComment(line) : startComment(line));
@@ -170,6 +180,7 @@ public class XmlValidationModeDetector {
 	/**
 	 * Try to consume the {@link #START_COMMENT} token.
 	 * @see #commentToken(String, String, boolean)
+	 * 试图消费START_COMMENT记号。
 	 */
 	private int startComment(String line) {
 		return commentToken(line, START_COMMENT, true);
@@ -183,6 +194,9 @@ public class XmlValidationModeDetector {
 	 * Try to consume the supplied token against the supplied content and update the
 	 * in comment parse state to the supplied value. Returns the index into the content
 	 * which is after the token or -1 if the token is not found.
+	 *
+	 * 试图消费提供的token根据提供的内容并且更新注释解析状态为提供的值。
+	 * 返回记号之后的注释的序号或-1如果没有找到记号。
 	 */
 	private int commentToken(String line, String token, boolean inCommentIfPresent) {
 		int index = line.indexOf(token);

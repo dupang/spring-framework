@@ -508,6 +508,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		// Hmm, we didn't get a clear indication... Let's assume XSD,
 		// since apparently no DTD declaration has been found up until
 		// detection stopped (before finding the document's root tag).
+		// 嗯，我们没有得到一个清晰的提示... 那就让我们认为是XSD,
+		// 因为目前没有DTD声明已经被找到直到检查停止(在找到文件的根标签之前)。
 		return VALIDATION_XSD;
 	}
 
