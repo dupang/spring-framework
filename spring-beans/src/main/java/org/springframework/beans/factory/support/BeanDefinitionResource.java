@@ -28,6 +28,8 @@ import org.springframework.util.Assert;
  * Descriptive {@link org.springframework.core.io.Resource} wrapper for
  * a {@link org.springframework.beans.factory.config.BeanDefinition}.
  *
+ * BeanDefinition的描述性的资源包装器。
+ *
  * @author Juergen Hoeller
  * @since 2.5.2
  * @see org.springframework.core.io.DescriptiveResource
@@ -39,6 +41,7 @@ class BeanDefinitionResource extends AbstractResource {
 
 	/**
 	 * Create a new BeanDefinitionResource.
+	 * 创建一个新的BeanDefinitionResource。
 	 * @param beanDefinition the BeanDefinition objectto wrap
 	 */
 	public BeanDefinitionResource(BeanDefinition beanDefinition) {
@@ -48,6 +51,7 @@ class BeanDefinitionResource extends AbstractResource {
 
 	/**
 	 * Return the wrapped BeanDefinition object.
+	 * 返回包装的BeanDefinition对象。
 	 */
 	public final BeanDefinition getBeanDefinition() {
 		return this.beanDefinition;
@@ -78,6 +82,7 @@ class BeanDefinitionResource extends AbstractResource {
 
 	/**
 	 * This implementation compares the underlying BeanDefinition.
+	 * 这个实现比较底层的BeanDefinition。
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -88,6 +93,7 @@ class BeanDefinitionResource extends AbstractResource {
 
 	/**
 	 * This implementation returns the hash code of the underlying BeanDefinition.
+	 * 这个实现返回底层的BeanDefinition的hashCode。
 	 */
 	@Override
 	public int hashCode() {
