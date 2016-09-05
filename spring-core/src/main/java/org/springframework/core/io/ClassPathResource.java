@@ -76,6 +76,10 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 	 * Create a new {@code ClassPathResource} for {@code ClassLoader} usage.
 	 * A leading slash will be removed, as the ClassLoader resource access
 	 * methods will not accept it.
+	 *
+	 * 为ClassLoader使用创建一个新的ClassPathResource。
+	 * 一个前导的斜线将被移除，因为ClassLoader资源访问方法将不接受它。
+	 *
 	 * @param path the absolute path within the classpath
 	 * @param classLoader the class loader to load the resource with,
 	 * or {@code null} for the thread context class loader
@@ -95,6 +99,10 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 	 * Create a new {@code ClassPathResource} for {@code Class} usage.
 	 * The path can be relative to the given class, or absolute within
 	 * the classpath via a leading slash.
+	 *
+	 * 为ClassLoader使用创建一个新的ClassPathResource。
+	 * 这个路径可以相对于给定的类，或绝对的在类路径中通过一个前导的斜线。
+	 *
 	 * @param path relative or absolute path within the class path
 	 * @param clazz the class to load resources with
 	 * @see java.lang.Class#getResourceAsStream
@@ -108,6 +116,9 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 	/**
 	 * Create a new {@code ClassPathResource} with optional {@code ClassLoader}
 	 * and {@code Class}. Only for internal usage.
+	 *
+	 * 创建一个新的带着可选的ClassLoader和Class的ClassPathResource。只用于内部使用。
+	 *
 	 * @param path relative or absolute path within the classpath
 	 * @param classLoader the class loader to load the resource with, if any
 	 * @param clazz the class to load resources with, if any
@@ -255,6 +266,8 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 
 	/**
 	 * This implementation compares the underlying class path locations.
+	 *
+	 * 这个实现比较底层的类路径地址。
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -273,6 +286,8 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 	/**
 	 * This implementation returns the hash code of the underlying
 	 * class path location.
+	 *
+	 * 这个实现返回底层的类路径地址的hashCode。
 	 */
 	@Override
 	public int hashCode() {
