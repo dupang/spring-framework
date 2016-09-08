@@ -24,8 +24,12 @@ import java.io.InputStream;
  * Simple {@link Resource} implementation that holds a resource description
  * but does not point to an actually readable resource.
  *
+ * 持有一个资源描述但是不指向一个真实的可读的资源的简单实现。
+ *
  * <p>To be used as placeholder if a {@code Resource} argument is
  * expected by an API but not necessarily used for actual reading.
+ *
+ * 被用来作为占位符如果一个资源参数被一个API期望但是对真正的读不是必需的。
  *
  * @author Juergen Hoeller
  * @since 1.2.6
@@ -37,6 +41,7 @@ public class DescriptiveResource extends AbstractResource {
 
 	/**
 	 * Create a new DescriptiveResource.
+	 * 创建一个新的DescriptiveResource。
 	 * @param description the resource description
 	 */
 	public DescriptiveResource(String description) {
@@ -68,6 +73,8 @@ public class DescriptiveResource extends AbstractResource {
 
 	/**
 	 * This implementation compares the underlying description String.
+	 *
+	 * 这个实现比较底层的描述字符串。
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -77,6 +84,8 @@ public class DescriptiveResource extends AbstractResource {
 
 	/**
 	 * This implementation returns the hash code of the underlying description String.
+	 *
+	 * 这个实现比较底层的描述字符串的hashCode()。
 	 */
 	@Override
 	public int hashCode() {

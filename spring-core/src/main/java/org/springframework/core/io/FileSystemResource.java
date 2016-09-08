@@ -33,6 +33,10 @@ import org.springframework.util.StringUtils;
  * Supports resolution as a {@code File} and also as a {@code URL}.
  * Implements the extended {@link WritableResource} interface.
  *
+ * 为java.io.File句柄的Resource实现。
+ * 支持作为文件和URL的解析。
+ * 实现的扩展的WritableResource接口。
+ *
  * @author Juergen Hoeller
  * @since 28.12.2003
  * @see java.io.File
@@ -53,6 +57,13 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	 * directory, use the {@link #FileSystemResource(String) constructor with a file path}
 	 * to append a trailing slash to the root path: "C:/dir1/", which
 	 * indicates this directory as root for all relative paths.
+	 *
+	 * 从一个文件句柄创建一个新的FileSystemResource。
+	 * 注意：当通过createRelative构造相对的资源时，相对路径将应用到相同的目录层次:例如，new File("C:/dir1"),
+	 * 相对路径"dir2" -> "C:/dir2"!
+	 * 如果你喜欢用相对路径构造底层的给定根目录，使用FileSystemResource(String)来增加一个斜线到根路径:"C:/dir1/",
+	 * 它表示这个目录作为所有相对路径的根。
+	 *
 	 * @param file a File handle
 	 */
 	public FileSystemResource(File file) {
@@ -69,6 +80,11 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	 * will be built underneath that root: e.g. relative path "dir2" ->
 	 * "C:/dir1/dir2". In the case of "C:/dir1", relative paths will apply
 	 * at the same directory level: relative path "dir2" -> "C:/dir2".
+	 *
+	 * 从一个文件路径创建一个新的FileSystemResource。
+	 * 注意:当通过createRelative创建相对的资源，这里指定的根路径是否以斜线结尾是不同的。
+	 * 当是"C:/dir1/"的情况下，相对路径将在根目录下被构建:例如相对路径"dir2" -> "C:/dir1/dir2"。
+	 * 当是"C:/dir1"的情况下，相对路径将被应用到相同的目录层级:相对路径"dir2" -> "C:/dir2"。
 	 * @param path a file path
 	 */
 	public FileSystemResource(String path) {
@@ -80,6 +96,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 
 	/**
 	 * Return the file path for this resource.
+	 *
+	 * 返回这个资源的文件路径。
 	 */
 	public final String getPath() {
 		return this.path;
@@ -88,6 +106,9 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	/**
 	 * This implementation returns whether the underlying file exists.
 	 * @see java.io.File#exists()
+	 *
+	 * 这个实现返回是否底层的文件存在。
+	 *
 	 */
 	@Override
 	public boolean exists() {
@@ -99,6 +120,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	 * (and corresponds to an actual file with content, not to a directory).
 	 * @see java.io.File#canRead()
 	 * @see java.io.File#isDirectory()
+	 *
+	 * 这个实现检查是否底层的文件被标记为可读的(对应于一个真实的有内容的文件，不是一个目录)。
 	 */
 	@Override
 	public boolean isReadable() {
@@ -108,6 +131,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	/**
 	 * This implementation opens a FileInputStream for the underlying file.
 	 * @see java.io.FileInputStream
+	 *
+	 * 这个实现为底层的文件打开一个FileInputStream。
 	 */
 	@Override
 	public InputStream getInputStream() throws IOException {
@@ -119,6 +144,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	 * (and corresponds to an actual file with content, not to a directory).
 	 * @see java.io.File#canWrite()
 	 * @see java.io.File#isDirectory()
+	 *
+	 * 这个实现检查是否底层的文件被标记为可写的(对应于一个真实的有内容的文件，不是一个目录)。
 	 */
 	@Override
 	public boolean isWritable() {
@@ -128,6 +155,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	/**
 	 * This implementation opens a FileOutputStream for the underlying file.
 	 * @see java.io.FileOutputStream
+	 *
+	 * 这个实现为底层的文件打开一个FileOutputStream。
 	 */
 	@Override
 	public OutputStream getOutputStream() throws IOException {
@@ -137,6 +166,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	/**
 	 * This implementation returns a URL for the underlying file.
 	 * @see java.io.File#toURI()
+	 *
+	 * 这个实现为底层的文件返回一个URL。
 	 */
 	@Override
 	public URL getURL() throws IOException {
@@ -146,6 +177,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	/**
 	 * This implementation returns a URI for the underlying file.
 	 * @see java.io.File#toURI()
+	 *
+	 * 这个实现为底层的文件返回一个URI。
 	 */
 	@Override
 	public URI getURI() throws IOException {
@@ -154,6 +187,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 
 	/**
 	 * This implementation always indicates a file.
+	 *
+	 * 这个实现总是表示一个文件。
 	 */
 	@Override
 	public boolean isFile() {
@@ -162,6 +197,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 
 	/**
 	 * This implementation returns the underlying File reference.
+	 *
+	 * 这个实现返回底层的文件引用。
 	 */
 	@Override
 	public File getFile() {
@@ -170,6 +207,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 
 	/**
 	 * This implementation returns the underlying File's length.
+	 *
+	 * 这个实现返回底层文件的长度。
 	 */
 	@Override
 	public long contentLength() throws IOException {
@@ -180,6 +219,9 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	 * This implementation creates a FileSystemResource, applying the given path
 	 * relative to the path of the underlying file of this resource descriptor.
 	 * @see org.springframework.util.StringUtils#applyRelativePath(String, String)
+	 *
+	 * 这个实现创建一个FileSystemResource，应用到相对于这个资源描述符的底层文件的路径的路径。
+	 *
 	 */
 	@Override
 	public Resource createRelative(String relativePath) {
@@ -190,6 +232,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	/**
 	 * This implementation returns the name of the file.
 	 * @see java.io.File#getName()
+	 *
+	 * 这个实现返回文件的名字。
 	 */
 	@Override
 	public String getFilename() {
@@ -200,6 +244,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	 * This implementation returns a description that includes the absolute
 	 * path of the file.
 	 * @see java.io.File#getAbsolutePath()
+	 *
+	 * 这个实现返回包含这个文件绝对路径的描述符。
 	 */
 	@Override
 	public String getDescription() {
@@ -209,6 +255,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 
 	/**
 	 * This implementation compares the underlying File references.
+	 *
+	 * 这个实现比较底层文件的引用。
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -218,6 +266,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 
 	/**
 	 * This implementation returns the hash code of the underlying File reference.
+	 *
+	 * 这个实现舞台底层文件引用的hashCode。
 	 */
 	@Override
 	public int hashCode() {
