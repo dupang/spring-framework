@@ -24,12 +24,22 @@ import org.springframework.util.ResourceUtils;
  * is required to provide this functionality, plus extended
  * {@link org.springframework.core.io.support.ResourcePatternResolver} support.
  *
+ *
+ * 用于加载资源的策略接口(类路径或文件系统资源)。
+ * 一个ApplicationContext需要来提供这个功能，增加了扩展ResourcePatternResolver支持。
+ *
  * <p>{@link DefaultResourceLoader} is a standalone implementation that is
  * usable outside an ApplicationContext, also used by {@link ResourceEditor}.
+ *
+ * DefaultResourceLoader是一个单独的实现可以独立于ApplicationContext。
+ * 也被ResourceEditor使用。
  *
  * <p>Bean properties of type Resource and Resource array can be populated
  * from Strings when running in an ApplicationContext, using the particular
  * context's resource loading strategy.
+ *
+ * 类型Resource和Resource数组的Bean属性可以被填充当运行在一个ApplicationContext中，
+ * 使用特别的资源加载策略。
  *
  * @author Juergen Hoeller
  * @since 10.03.2004
@@ -41,6 +51,7 @@ import org.springframework.util.ResourceUtils;
 public interface ResourceLoader {
 
 	/** Pseudo URL prefix for loading from the class path: "classpath:" */
+	/** 用于从类路径: "classpath:"来加载的伪URL前缀 */
 	String CLASSPATH_URL_PREFIX = ResourceUtils.CLASSPATH_URL_PREFIX;
 
 
@@ -57,6 +68,18 @@ public interface ResourceLoader {
 	 * </ul>
 	 * <p>Note that a Resource handle does not imply an existing resource;
 	 * you need to invoke {@link Resource#exists} to check for existence.
+	 *
+	 * 为指定的资源返回一个资源句柄。
+	 * 句柄应该总是一个可重复使用的资源描述符，
+	 * 允许多次的Resource#getInputStream()调用。
+	 * 必须支持完全限定符的URLs,例如，"file:C:/test.dat"。
+	 * 必须支持类路径的伪URLs,例如，"classpath:test.dat"。
+	 * 应该支持相对的文件路径，例如，"WEB-INF/test.dat"。
+	 * (这将是实现特定的，通常被一个ApplicationContext实现提供)
+	 *
+	 * 注意资源句柄不意为一个存在的资源;
+	 * 你应该调用Resource#exists来检查存在性。
+	 *
 	 * @param location the resource location
 	 * @return a corresponding Resource handle
 	 * @see #CLASSPATH_URL_PREFIX
@@ -70,6 +93,10 @@ public interface ResourceLoader {
 	 * <p>Clients which need to access the ClassLoader directly can do so
 	 * in a uniform manner with the ResourceLoader, rather than relying
 	 * on the thread context ClassLoader.
+	 *
+	 * 暴露被这个ResourceLoader使用的ClassLoader。
+	 * 需要访问直接访问ClassLoader的客户端可以用一个统一的方式这样做，而不是依赖
+	 * 线程上下文的ClassLoader。
 	 * @return the ClassLoader (only {@code null} if even the system
 	 * ClassLoader isn't accessible)
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
