@@ -30,12 +30,20 @@ import org.springframework.util.StringUtils;
  * e.g. {@code file:C:/myfile.txt} or {@code classpath:myfile.txt} to
  * {@code Resource} properties instead of using a {@code String} location property.
  *
+ * 用于资源描述符的Editor,来自动地转换String路径例如file:C:/myfile.txt或classpath:myfile.txt
+ * 为Resource属性而不是用一个String路径属性。
+ *
  * <p>The path may contain {@code ${...}} placeholders, to be
  * resolved as {@link org.springframework.core.env.Environment} properties:
  * e.g. {@code ${user.dir}}. Unresolvable placeholders are ignored by default.
  *
+ * 路径可能包含${...}占位符，被作为Environment属性解析:
+ * 例如${user.dir}。不能解析的占位符默认的被忽略。
+ *
  * <p>Delegates to a {@link ResourceLoader} to do the heavy lifting,
  * by default using a {@link DefaultResourceLoader}.
+ *
+ * 委托给ResourceLoader来做累活，默认使用一个DefaultResourceLoader。
  *
  * @author Juergen Hoeller
  * @author Dave Syer
@@ -58,6 +66,9 @@ public class ResourceEditor extends PropertyEditorSupport {
 	/**
 	 * Create a new instance of the {@link ResourceEditor} class
 	 * using a {@link DefaultResourceLoader} and {@link StandardEnvironment}.
+	 *
+	 * 使用DefaultResourceLoader和StandardEnvironment创建一个新的
+	 * ResourceEditor类实例。
 	 */
 	public ResourceEditor() {
 		this(new DefaultResourceLoader(), null);
@@ -66,6 +77,10 @@ public class ResourceEditor extends PropertyEditorSupport {
 	/**
 	 * Create a new instance of the {@link ResourceEditor} class
 	 * using the given {@link ResourceLoader} and {@link PropertyResolver}.
+	 *
+	 * 使用给定的ResourceLoader和PropertyResolver创建一个新的
+	 * ResourceEditor类实例。
+	 *
 	 * @param resourceLoader the {@code ResourceLoader} to use
 	 * @param propertyResolver the {@code PropertyResolver} to use
 	 */
@@ -76,6 +91,10 @@ public class ResourceEditor extends PropertyEditorSupport {
 	/**
 	 * Create a new instance of the {@link ResourceEditor} class
 	 * using the given {@link ResourceLoader}.
+	 *
+	 * 使用给定的ResourceLoader创建一个新的
+	 * ResourceEditor类实例。
+	 *
 	 * @param resourceLoader the {@code ResourceLoader} to use
 	 * @param propertyResolver the {@code PropertyResolver} to use
 	 * @param ignoreUnresolvablePlaceholders whether to ignore unresolvable placeholders
@@ -103,6 +122,8 @@ public class ResourceEditor extends PropertyEditorSupport {
 	/**
 	 * Resolve the given path, replacing placeholders with corresponding
 	 * property values from the {@code environment} if necessary.
+	 *
+	 * 解析给定的路径，如果必要从environment用相应的属性值替换占位符。
 	 * @param path the original file path
 	 * @return the resolved file path
 	 * @see PropertyResolver#resolvePlaceholders
