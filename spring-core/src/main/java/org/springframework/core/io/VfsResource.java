@@ -27,10 +27,12 @@ import org.springframework.util.Assert;
 
 /**
  * JBoss VFS based {@link Resource} implementation.
- *
+ * 基于JBoss VFS 资源实现。
  * <p>As of Spring 4.0, this class supports VFS 3.x on JBoss AS 6+ (package
  * {@code org.jboss.vfs}) and is in particular compatible with JBoss AS 7 and
  * WildFly 8.
+ *
+ * 从Spring 4.0，这个类支持JBoss 6+ 上的VFS 3.x并且特别地兼容JBoss 7 和 8。
  *
  * @author Ales Justin
  * @author Juergen Hoeller
