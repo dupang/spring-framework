@@ -19,10 +19,14 @@ package org.springframework.core.io;
 /**
  * A resolution strategy for protocol-specific resource handles.
  *
+ * 用于特定协议资源句柄的解析策略。
+ *
  * <p>Used as an SPI for {@link DefaultResourceLoader}, allowing for
  * custom protocols to be handled without subclassing the loader
  * implementation (or application context implementation).
  *
+ * 作为DefaultResourceLoader的SPI被使用，允许自定义的协议被处理而不继承loader
+ * 实现()。
  * @author Juergen Hoeller
  * @since 4.3
  * @see DefaultResourceLoader#addProtocolResolver
@@ -33,6 +37,9 @@ public interface ProtocolResolver {
 	/**
 	 * Resolve the given location against the given resource loader
 	 * if this implementation's protocol matches.
+	 *
+	 * 解析给定的路径用给定的资源加载器。如果这个实现的协议匹配。
+	 *
 	 * @param location the user-specified resource location
 	 * @param resourceLoader the associated resource loader
 	 * @return a corresponding {@code Resource} handle if the given location
