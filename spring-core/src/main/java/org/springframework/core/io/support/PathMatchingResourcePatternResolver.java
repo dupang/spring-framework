@@ -62,7 +62,14 @@ import org.springframework.util.StringUtils;
  * {@link org.springframework.util.AntPathMatcher} utility).
  * Both of the latter are effectively wildcards.
  *
+ * 一个ResourcePatternResolver实现，它能够解析一个指定的资源位置路径为一个或更多的匹配资源。
+ * 源路径可能是一个简单的到目标资源的一对一映射的路径的映射。或另外地可能包含特别地"classpath*:"
+ * 前缀和内部的Ant-style的规则表达式(使用Spring的AntPathMatcher工具匹配)。
+ * 后两种为有效的通配符。
+ *
  * <p><b>No Wildcards:</b>
+ *
+ * 没有通配符
  *
  * <p>In the simple case, if the specified location path does not start with the
  * {@code "classpath*:}" prefix, and does not contain a PathMatcher pattern,
@@ -74,7 +81,15 @@ import org.springframework.util.StringUtils;
  * fashion specific to the underlying {@code ResourceLoader} (e.g.
  * {@code ServletContextResource} for a {@code WebApplicationContext}).
  *
+ * 在简单的案例中，如果指定的位置路径没有以"classpath*:"前缀开始，并且没有包含一个PathMatcher模式，
+ * 这个解析器将简单地返回一个单一的资源通过在底层的ResourceLoader上调用getResource()。
+ * 像"file:C:/context.xml",像"classpath:/context.xml"伪URLs和简单的像"/WEB-INF/context.xml"
+ * 无前缀的路径。
+ * 后者将一种选定于底层ResourceLoader的风格解析以。(例如。WebApplicationContext的ServletContextResource)
+ *
  * <p><b>Ant-style Patterns:</b>
+ *
+ * 蚂蚁的风格模式
  *
  * <p>When the path location contains an Ant-style pattern, e.g.:
  * <pre class="code">
@@ -93,11 +108,27 @@ import org.springframework.util.StringUtils;
  * the jar URL, and then traverses the contents of the jar file, to resolve the
  * wildcards.
  *
+ *
+ * 当路径位置包含一个蚂蚁风格的模式，例如:
+ * /WEB-INF/*-context.xml
+ * com/mycompany/**&#47;applicationContext.xml
+ * file:C:/some/path/*-context.xml
+ * classpath:com/mycompany/**&#47;applicationContext.xml
+ * 解析器追随一个更复杂但是明确的过程来试着解析通配符。它为路径产生一个资源根据最后的非通配符的片断并且
+ * 从它当中获取一个URL。如果这个URL不是一个jar:URL或容器专用的变量(例如WebLogic的zip:，WebSphere中的wsjar,等等)
+ * 然后从它们当中获取一个File，并且被用来解析通配符通过walking the filesystem。当是jar URL的情况下，解析者
+ * 要么从它当中获取一个JarURLConnection，或手动地解析jar URL,然后遍历jar 文件的内容，来解析通配符。
+ *
  * <p><b>Implications on portability:</b>
+ *
+ *	有关可移植性的实现：
  *
  * <p>If the specified path is already a file URL (either explicitly, or
  * implicitly because the base {@code ResourceLoader} is a filesystem one,
  * then wildcarding is guaranteed to work in a completely portable fashion.
+ *
+ * 如果指定的路径已经是一个文件URL，显式或非显式的因为基础的ResourceLoader是一个文件系统的，
+ * 那么通配符保证以一种完全可移植性地风格工作。
  *
  * <p>If the specified path is a classpath location, then the resolver must
  * obtain the last non-wildcard path segment URL via a
@@ -109,6 +140,11 @@ import org.springframework.util.StringUtils;
  * location, or a jar URL of some sort, where the classpath resource resolves
  * to a jar location. Still, there is a portability concern on this operation.
  *
+ * 如果指定的路径是一个类路径位置，那么解析器必须获取最后一个非通配符的路径片断URL通过
+ * Classloader.getResource()调用。因为这只是路径的一个节点(不是最后的文件)它真正地不完全
+ * 确定地什么样的URL被返回。在实践中，通常一个File表示一个目录，这里类路径资源解析为一个文件系统
+ * 位置，或一个jar URL,这里的类路径资源解析为一个jar路径。仍然，这个操作有一个可移植性的问题。
+ *
  * <p>If a jar URL is obtained for the last non-wildcard segment, the resolver
  * must be able to get a {@code java.net.JarURLConnection} from it, or
  * manually parse the jar URL, to be able to walk the contents of the jar,
@@ -117,7 +153,14 @@ import org.springframework.util.StringUtils;
  * resolution of resources coming from jars be thoroughly tested in your
  * specific environment before you rely on it.
  *
+ * 如果一个jar URl被从最后一个非通配符的片断中获取，解析者必须能够从它当中获取一个JarURLConnection，
+ * 或手动地解析jar URL，为了能够工作于jar文件的内容，并且解析通配符。这在大部分环境中有效，
+ * 但是在其它情况下失败，并且强烈建议来源于jar的资源的通配符解析彻底地在你的特定环境中测试过在你
+ * 依赖它之前。
+ *
  * <p><b>{@code classpath*:} Prefix:</b>
+ *
+ * classpath*:前缀
  *
  * <p>There is special support for retrieving multiple class path resources with
  * the same name, via the "{@code classpath*:}" prefix. For example,
@@ -127,6 +170,12 @@ import org.springframework.util.StringUtils;
  * at the same location within each jar file. Internally, this happens via a
  * {@code ClassLoader.getResources()} call, and is completely portable.
  *
+ * 有一个特殊的支持对于通过classpath*:前缀用相同的名字检索多个类路径资源，例如，
+ * "classpath*:META-INF/beans.xml"将找到类路径下的所有的"beans.xml"。
+ * 它在"classes"目录下或在JAR文件中。
+ * 这非常有用对于自动检测的相同名字的配置文件，在每一个jar文件的相同位置。内部来说，
+ * 这发生通过一个ClassLoader.getResources()调用，并且完全地可移植。
+ *
  * <p>The "classpath*:" prefix can also be combined with a PathMatcher pattern in
  * the rest of the location path, for example "classpath*:META-INF/*-beans.xml".
  * In this case, the resolution strategy is fairly simple: a
@@ -135,7 +184,13 @@ import org.springframework.util.StringUtils;
  * and then off each resource the same PathMatcher resolution strategy described
  * above is used for the wildcard subpath.
  *
+ * "classpath*:"前缀也可以和剩余的位置路径中的一个PathMatcher模式结合，例如"classpath*:META-INF/*-beans.xml"。
+ * 在这种情况下，解析策略是相当地简单:在最后一个非通配符的路径片断上调用ClassLoader.getResources()
+ * 来在类加载器的层次上获取所有的匹配资源，然后关闭每一个资源，相同的上面描述的用于子路径的通配符PathMatcher解析策略。
+ *
  * <p><b>Other notes:</b>
+ *
+ * 其它注意点:
  *
  * <p><b>WARNING:</b> Note that "{@code classpath*:}" when combined with
  * Ant-style patterns will only work reliably with at least one root directory
@@ -148,6 +203,13 @@ import org.springframework.util.StringUtils;
  * This {@code ResourcePatternResolver} implementation is trying to mitigate the
  * jar root lookup limitation through {@link URLClassLoader} introspection and
  * "java.class.path" manifest evaluation; however, without portability guarantees.
+ *
+ * 警告:注意当"{classpath*:}"和Ant-style模式结合的时候将可靠地工作在至少一个根目录在模式开始之前，
+ * 除非走在的目标文件处于文件系统中。这意为着像"classpath*:*.xml"的模式将不会从jar文件的根检索文件
+ * 而只是从扩展的目录的根目录中检索。它源于JDK的ClassLoader.getResources()的一个限制，这个方法
+ * 为一个传入的空字符串(表示搜索的潜在的根)只返回文件系统地址。
+ * 这个ResourcePatternResolver实现试图减轻jar 根寻找的限制通过URLClassLoader反思和java.class.path
+ * 显性评价;然而，没有可移植性保证。
  *
  * <p><b>WARNING:</b> Ant-style patterns with "classpath:" resources are not
  * guaranteed to find matching resources if the root package to search is available
@@ -165,6 +227,15 @@ import org.springframework.util.StringUtils;
  * underneath. Therefore, preferably, use "{@code classpath*:}" with the same
  * Ant-style pattern in such a case, which will search <i>all</i> class path
  * locations that contain the root package.
+ *
+ *
+ * 警告:带有"classpath:"的Ant-style的模式资源不保证找到匹配的资源，如果要寻找的根在多个类路径位置可用。
+ * 这是因为一个资源，例如com/mycompany/package1/service-context.xml
+ * 可能只在一个位置，但是当一个路径例如
+ *  classpath:com/mycompany/**&#47;service-context.xml
+ *  被用来试图解析它，解析器将抵消(第一个)被getResource("com/mycompany")返回的URL。如果这个根包节点
+ *  存在于多个类加载器位置，真正的结束资源可能不是在底下。因此，更好地，在这种情况下使用"{classpath*:}"
+ *  用相同的Ant-style的模式，它将搜索所有的包含根包的类路径位置。
  *
  * @author Juergen Hoeller
  * @author Colin Sampaleanu
@@ -206,6 +277,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * Create a new PathMatchingResourcePatternResolver with a DefaultResourceLoader.
 	 * <p>ClassLoader access will happen via the thread context class loader.
 	 * @see org.springframework.core.io.DefaultResourceLoader
+	 *
+	 * 用DefaultResourceLoader创建一个新的PathMatchingResourcePatternResolver。
+	 * ClassLoader访问将发生通过线程上下文的类加载器。
 	 */
 	public PathMatchingResourcePatternResolver() {
 		this.resourceLoader = new DefaultResourceLoader();
@@ -214,6 +288,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Create a new PathMatchingResourcePatternResolver.
 	 * <p>ClassLoader access will happen via the thread context class loader.
+	 *
+	 * 创建一个新的PathMatchingResourcePatternResolver。
+	 * ClassLoader访问将发生通过线程上下文的类加载器。
 	 * @param resourceLoader the ResourceLoader to load root directories and
 	 * actual resources with
 	 */
@@ -224,6 +301,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Create a new PathMatchingResourcePatternResolver with a DefaultResourceLoader.
+	 *
+	 * 用DefaultResourceLoader创建一个新的PathMatchingResourcePatternResolver。
+	 *
 	 * @param classLoader the ClassLoader to load classpath resources with,
 	 * or {@code null} for using the thread context class loader
 	 * at the time of actual resource access
@@ -236,6 +316,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Return the ResourceLoader that this pattern resolver works with.
+	 *
+	 * 返回这个模式解析器工作的ResourceLoader。
 	 */
 	public ResourceLoader getResourceLoader() {
 		return this.resourceLoader;
@@ -249,6 +331,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Set the PathMatcher implementation to use for this
 	 * resource pattern resolver. Default is AntPathMatcher.
+	 *
+	 * 为这个资源模式解析器设置使用的PathMatcher实现。
+	 * 默认的是AntPathMatcher。
 	 * @see org.springframework.util.AntPathMatcher
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
@@ -258,6 +343,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Return the PathMatcher that this resource pattern resolver uses.
+	 *
+	 * 返回这个资源模式解析器使用的PathMatcher。
 	 */
 	public PathMatcher getPathMatcher() {
 		return this.pathMatcher;
@@ -301,6 +388,10 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Find all class location resources with the given location via the ClassLoader.
 	 * Delegates to {@link #doFindAllClassPathResources(String)}.
+	 *
+	 * 通过ClassLoader用给定的位置找到所有的类位置资源。
+	 * 委托给doFindAllClassPathResources(String)
+	 *
 	 * @param location the absolute path within the classpath
 	 * @return the result as Resource array
 	 * @throws IOException in case of I/O errors
@@ -322,6 +413,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Find all class location resources with the given path via the ClassLoader.
 	 * Called by {@link #findAllClassPathResources(String)}.
+	 *
+	 * 通过ClassLoader用给定的位置找到所有的类位置资源。
+	 * 被findAllClassPathResources(String)调用。
 	 * @param path the absolute path within the classpath (never a leading slash)
 	 * @return a mutable Set of matching Resource instances
 	 * @since 4.1.1
@@ -345,6 +439,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Convert the given URL as returned from the ClassLoader into a {@link Resource}.
 	 * <p>The default implementation simply creates a {@link UrlResource} instance.
+	 *
+	 * 转换从ClassLoader返回的给定URL为一个资源。
+	 * 默认的实现简单地创建一个UrlResource实例。
 	 * @param url a URL as returned from the ClassLoader
 	 * @return the corresponding Resource object
 	 * @see java.lang.ClassLoader#getResources
@@ -357,6 +454,10 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Search all {@link URLClassLoader} URLs for jar file references and add them to the
 	 * given set of resources in the form of pointers to the root of the jar file content.
+	 *
+	 * 为jar 文件引用搜索所有的URLClassLoader URLs并且增加它们到给定的资源集合中，以到jar文件内容根的指针的
+	 * 形式。
+	 *
 	 * @param classLoader the ClassLoader to search (including its ancestors)
 	 * @param result the set of resources to add jar roots to
 	 * @since 4.1.1
@@ -412,6 +513,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Determine jar file references from the "java.class.path." manifest property and add them
 	 * to the given set of resources in the form of pointers to the root of the jar file content.
+	 * 确定jar文件引用从"java.class.path."属性中并且增加它们到给定的资源集合中，以到jar文件内容根的指针的
+	 * 形式。
 	 * @param result the set of resources to add jar roots to
 	 * @since 4.3
 	 */
@@ -448,6 +551,10 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * Find all resources that match the given location pattern via the
 	 * Ant-style PathMatcher. Supports resources in jar files and zip files
 	 * and in the file system.
+	 *
+	 * 通过Ant-style PathMatcher找到所有匹配给定的位置模式的资源，支持jar文件中的资源和zip
+	 * 文件和在文件系统中的资源。
+	 *
 	 * @param locationPattern the location pattern to match
 	 * @return the result as Resource array
 	 * @throws IOException in case of I/O errors
@@ -493,6 +600,12 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * remainder of the location as pattern.
 	 * <p>Will return "/WEB-INF/" for the pattern "/WEB-INF/*.xml",
 	 * for example.
+	 *
+	 * 为给定的位置确定根目录。
+	 * 被用于确定文件匹配的开始点，解析根目录位置为一个java.io.File并且传递它到retrieveMatchingFiles，
+	 * 用位置的剩下部分作为模式。
+	 * 将返回"/WEB-INF/"为模式"/WEB-INF/*.xml"。
+	 *
 	 * @param location the location to check
 	 * @return the part of the location that denotes the root directory
 	 * @see #retrieveMatchingFiles
@@ -515,6 +628,12 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * resolved into a standard jar file URL that be traversed using Spring's
 	 * standard jar file traversal algorithm. For any preceding custom resolution,
 	 * override this method and replace the resource handle accordingly.
+	 *
+	 * 为路径匹配解析指定的资源。
+	 * 默认地，Equinox OSGi "bundleresource:" / "bundleentry:" URL将被解析为一个标准的
+	 * jar文件URL被遍历使用Spring的标准的jar文件遍历逻辑。对于任何先前的自定义解析，
+	 * 覆盖这个方法并且替换相应的资源处理。
+	 *
 	 * @param original the resource to resolve
 	 * @return the resolved resource (may be identical to the passed-in resource)
 	 * @throws IOException in case of resolution failure
@@ -530,6 +649,13 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * will be treated as jar resources. This template method allows for
 	 * detecting further kinds of jar-like resources, e.g. through
 	 * {@code instanceof} checks on the resource handle type.
+	 *
+	 * 返回是否给定的资源句柄表示一个doFindPathMatchingJarResources方法可以处理
+	 * 的jar资源。
+	 * 默认的URL协议"jar","zip","vfszip"和"wsjar"将被作为jar资源对待。
+	 * 这个模板方法允许探测类似jar资源的更多类型，例如，通过在资源句柄类型上
+	 * 的instanceof检查。
+	 *
 	 * @param resource the resource handle to check
 	 * (usually the root directory to start path matching from)
 	 * @see #doFindPathMatchingJarResources
@@ -542,6 +668,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Find all resources in jar files that match the given location pattern
 	 * via the Ant-style PathMatcher.
+	 *
+	 * 通过Ant-style PathMatcher找到匹配给定的位置模式的jar文件中的资源。
+	 *
 	 * @param rootDirResource the root directory as Resource
 	 * @param rootDirURL the pre-resolved root directory URL
 	 * @param subPattern the sub pattern to match (below the root directory)
@@ -629,6 +758,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Resolve the given jar file URL into a JarFile object.
+	 * 解析给定的jar文件URL为一个JarFile对象。
 	 */
 	protected JarFile getJarFile(String jarFileUrl) throws IOException {
 		if (jarFileUrl.startsWith(ResourceUtils.FILE_URL_PREFIX)) {
@@ -648,6 +778,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Find all resources in the file system that match the given location pattern
 	 * via the Ant-style PathMatcher.
+	 *
+	 * 通过Ant-style PathMatcher找到匹配给定的位置模式的jar文件中的资源。
+	 *
 	 * @param rootDirResource the root directory as Resource
 	 * @param subPattern the sub pattern to match (below the root directory)
 	 * @return a mutable Set of matching Resource instances
@@ -675,6 +808,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Find all resources in the file system that match the given location pattern
 	 * via the Ant-style PathMatcher.
+	 *
+	 * 通过Ant-style PathMatcher找到匹配给定的位置模式的jar文件中的资源。
+	 *
 	 * @param rootDir the root directory in the file system
 	 * @param subPattern the sub pattern to match (below the root directory)
 	 * @return a mutable Set of matching Resource instances
@@ -697,6 +833,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Retrieve files that match the given path pattern,
 	 * checking the given directory and its subdirectories.
+	 *
+	 * 检索匹配给定路径模式的文件，检查给定的目录和它的子目录。
 	 * @param rootDir the directory to start from
 	 * @param pattern the pattern to match against,
 	 * relative to the root directory
@@ -738,6 +876,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Recursively retrieve files that match the given pattern,
 	 * adding them to the given result list.
+	 *
+	 * 递归地检索匹配给定模式的文件，
+	 * 并且增加它们到给定的结果列表。
 	 * @param fullPattern the pattern to match against,
 	 * with prepended root directory path
 	 * @param dir the current directory
@@ -779,6 +920,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Inner delegate class, avoiding a hard JBoss VFS API dependency at runtime.
+	 * 内部的代理类，避免运行时对JBoss VFS API的强制依赖。
 	 */
 	private static class VfsResourceMatchingDelegate {
 
@@ -796,6 +938,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * VFS visitor for path matching purposes.
+	 *
+	 * 用于路径匹配目的的VFS访问者。
 	 */
 	@SuppressWarnings("unused")
 	private static class PatternVirtualFileVisitor implements InvocationHandler {
