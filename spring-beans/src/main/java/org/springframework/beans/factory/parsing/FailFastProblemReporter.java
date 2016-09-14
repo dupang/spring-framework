@@ -23,12 +23,17 @@ import org.apache.commons.logging.LogFactory;
  * Simple {@link ProblemReporter} implementation that exhibits fail-fast
  * behavior when errors are encountered.
  *
+ * 简单的ProblemReporter实现，它表现为快速失败的行为当遇到错误的时候。
+ *
  * <p>The first error encountered results in a {@link BeanDefinitionParsingException}
  * being thrown.
+ *
+ * 第一个遇到的错误导致一个BeanDefinitionParsingException被抛出。
  *
  * <p>Warnings are written to
  * {@link #setLogger(org.apache.commons.logging.Log) the log} for this class.
  *
+ * 获取被写到setLogger()在这个类中。
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Rick Evans
@@ -43,6 +48,10 @@ public class FailFastProblemReporter implements ProblemReporter {
 	 * Set the {@link Log logger} that is to be used to report warnings.
 	 * <p>If set to {@code null} then a default {@link Log logger} set to
 	 * the name of the instance class will be used.
+	 *
+	 * 设置被用于被报告警告的logger。
+	 * 如果设置为null,那么一个默认的logger将被用来设置为实现类的名字。
+	 *
 	 * @param logger the {@link Log logger} that is to be used to report warnings
 	 */
 	public void setLogger(Log logger) {
@@ -53,6 +62,9 @@ public class FailFastProblemReporter implements ProblemReporter {
 	/**
 	 * Throws a {@link BeanDefinitionParsingException} detailing the error
 	 * that has occurred.
+	 *
+	 * 抛出一个BeanDefinitionParsingException来处理遇到的错误。
+	 *
 	 * @param problem the source of the error
 	 */
 	@Override
@@ -63,6 +75,8 @@ public class FailFastProblemReporter implements ProblemReporter {
 	/**
 	 * Throws a {@link BeanDefinitionParsingException} detailing the error
 	 * that has occurred.
+	 *
+	 * 抛出一个BeanDefinitionParsingException来处理遇到的错误。
 	 * @param problem the source of the error
 	 */
 	@Override
@@ -72,6 +86,8 @@ public class FailFastProblemReporter implements ProblemReporter {
 
 	/**
 	 * Writes the supplied {@link Problem} to the {@link Log} at {@code WARN} level.
+	 *
+	 * 写提供的Problem到log的WARN级别。
 	 * @param problem the source of the warning
 	 */
 	@Override
