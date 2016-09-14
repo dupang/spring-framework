@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 /**
  * Detects whether an XML stream is using DTD- or XSD-based validation.
  *
+ * 探测一个XML流是使用基于DTD还是XSD的验证。
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0
@@ -35,22 +36,30 @@ public class XmlValidationModeDetector {
 
 	/**
 	 * Indicates that the validation should be disabled.
+	 *
+	 * 表示验证应该被禁用。
 	 */
 	public static final int VALIDATION_NONE = 0;
 
 	/**
 	 * Indicates that the validation mode should be auto-guessed, since we cannot find
 	 * a clear indication (probably choked on some special characters, or the like).
+	 *
+	 * 表示验证模式应该自动猜测，因为我们不能找到一个荆楚的指示(可能阻塞在一些特殊的字符，或之类的)。
 	 */
 	public static final int VALIDATION_AUTO = 1;
 
 	/**
 	 * Indicates that DTD validation should be used (we found a "DOCTYPE" declaration).
+	 *
+	 * 表示DTD验证应该被使用(我们找到一个"DOCTYPE"声明)。
 	 */
 	public static final int VALIDATION_DTD = 2;
 
 	/**
 	 * Indicates that XSD validation should be used (found no "DOCTYPE" declaration).
+	 *
+	 * 表示XSD验证应该被使用(我们没找到一个"DOCTYPE"声明)。
 	 */
 	public static final int VALIDATION_XSD = 3;
 
@@ -58,22 +67,30 @@ public class XmlValidationModeDetector {
 	/**
 	 * The token in a XML document that declares the DTD to use for validation
 	 * and thus that DTD validation is being used.
+	 *
+	 * XML文档中的标记，声明使用DTD来验证。
 	 */
 	private static final String DOCTYPE = "DOCTYPE";
 
 	/**
 	 * The token that indicates the start of an XML comment.
+	 *
+	 * 表示XML注释开始的标记。
 	 */
 	private static final String START_COMMENT = "<!--";
 
 	/**
 	 * The token that indicates the end of an XML comment.
+	 *
+	 * 表示XML注释结束的标记。
 	 */
 	private static final String END_COMMENT = "-->";
 
 
 	/**
 	 * Indicates whether or not the current parse position is inside an XML comment.
+	 *
+	 * 表示是否当前的解析位置是否在XML注释中。
 	 */
 	private boolean inComment;
 
@@ -81,6 +98,9 @@ public class XmlValidationModeDetector {
 	/**
 	 * Detect the validation mode for the XML document in the supplied {@link InputStream}.
 	 * Note that the supplied {@link InputStream} is closed by this method before returning.
+	 *
+	 * 探测用于提供的InputStream中的XML文档验证模式。
+	 * 注意提供的InputStream在返回前被这个方法关闭。
 	 * @param inputStream the InputStream to parse
 	 * @throws IOException in case of I/O failure
 	 * @see #VALIDATION_DTD
