@@ -74,6 +74,8 @@ public class BeanDefinitionReaderUtils {
 	/**
 	 * Generate a bean name for the given bean definition, unique within the
 	 * given bean factory.
+	 *
+	 * 为给定的顶层的bean定义生成一个bean名称，在给定的bean工厂中是唯一的。
 	 * @param definition the bean definition to generate a bean name for
 	 * @param registry the bean factory that the definition is going to be
 	 * registered with (to check for existing bean names)
@@ -122,6 +124,9 @@ public class BeanDefinitionReaderUtils {
 	/**
 	 * Generate a bean name for the given top-level bean definition,
 	 * unique within the given bean factory.
+	 *
+	 * 为给定的顶层的bean定义生成一个bean名称，在给定的bean工厂中是唯一的。
+	 *
 	 * @param beanDefinition the bean definition to generate a bean name for
 	 * @param registry the bean factory that the definition is going to be
 	 * registered with (to check for existing bean names)
