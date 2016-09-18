@@ -71,6 +71,10 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * log warnings from {@code getenv} calls coming from Spring, e.g. on WebSphere
 	 * with strict SecurityManager settings and AccessControlExceptions warnings.
 	 * @see #suppressGetenvAccess()
+	 *
+	 * 指示Spring来忽略系统环境变更的系统属性，也就是说，永远不会通过System#getenv()检索这样的变量。
+	 * 默认的是false,落回系统变量检查，如果一个Spring环境属性不能被解析。考虑转换这个标志为true如果
+	 * 你遇到日志警告从getenv调用中，例如在有着严格SecurityManager设置的WebSphere和AccessControlExceptions警告。
 	 */
 	public static final String IGNORE_GETENV_PROPERTY_NAME = "spring.getenv.ignore";
 
@@ -82,6 +86,10 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * is in use, this property may be specified as an environment variable as
 	 * {@code SPRING_PROFILES_ACTIVE}.
 	 * @see ConfigurableEnvironment#setActiveProfiles
+	 *
+	 * 用来指定活跃的profile的属性名称。值可以是逗号分隔的。
+	 * 注意一些shell环境例如Bash不允许使用周期的字母在变更名称里。假如Spring的SystemEnvironmentPropertySource
+	 * 正在使用，这个属性可以指定为一个环境变量。
 	 */
 	public static final String ACTIVE_PROFILES_PROPERTY_NAME = "spring.profiles.active";
 
@@ -93,6 +101,10 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * is in use, this property may be specified as an environment variable as
 	 * {@code SPRING_PROFILES_DEFAULT}.
 	 * @see ConfigurableEnvironment#setDefaultProfiles
+	 *
+	 * 用来指定默认的活跃的profiles的属性名称。值可以是逗号分隔的。
+	 * 注意一些shell环境例如Bash不允许在变量名称中使用周期字符。假如Spring的SystemEnvironmentPropertySource
+	 * 正在使用，这个属性可以作为环境变量指定。
 	 */
 	public static final String DEFAULT_PROFILES_PROPERTY_NAME = "spring.profiles.default";
 
@@ -100,6 +112,9 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * Name of reserved default profile name: {@value}. If no default profile names are
 	 * explicitly and no active profile names are explicitly set, this profile will
 	 * automatically be activated by default.
+	 *
+	 * 保存的默认的profile名称的名称。如果没有默认的profile名称是明确的并且没有活跃的profile名称被显式地设置，
+	 * 这个profile将被自动地启用。
 	 * @see #getReservedDefaultProfiles
 	 * @see ConfigurableEnvironment#setDefaultProfiles
 	 * @see ConfigurableEnvironment#setActiveProfiles
@@ -127,6 +142,9 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * allow subclasses to contribute or manipulate {@link PropertySource} instances as
 	 * appropriate.
 	 * @see #customizePropertySources(MutablePropertySources)
+	 *
+	 * 创建一个新的Environment实例，回调customizePropertySources(MutablePropertySources)在
+	 * 构造过程中来允许子类贡献或适当地维护PropertySource实例。
 	 */
 	public AbstractEnvironment() {
 		customizePropertySources(this.propertySources);
@@ -221,6 +239,9 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * customize the set of reserved names.
 	 * @see #RESERVED_DEFAULT_PROFILE_NAME
 	 * @see #doGetDefaultProfiles()
+	 *
+	 * 返回保存的默认的profile名称。这个实现返回RESERVED_DEFAULT_PROFILE_NAME。
+	 * 子类可以覆盖为了自定义保存的名称的集合。
 	 */
 	protected Set<String> getReservedDefaultProfiles() {
 		return Collections.singleton(RESERVED_DEFAULT_PROFILE_NAME);
@@ -241,6 +262,8 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * {@link #setActiveProfiles} or if the current set of active profiles
 	 * is empty, check for the presence of the {@value #ACTIVE_PROFILES_PROPERTY_NAME}
 	 * property and assign its value to the set of active profiles.
+	 * 返回通过setActiveProfiles显式设置的活跃的profiles集合或者如果当前的活跃profile是空。
+	 * 检查ACTIVE_PROFILES_PROPERTY_NAME属性的存在性并且并且分配它的值给活跃profiles集合。
 	 * @see #getActiveProfiles()
 	 * @see #ACTIVE_PROFILES_PROPERTY_NAME
 	 */
@@ -297,6 +320,10 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * @see #getDefaultProfiles()
 	 * @see #DEFAULT_PROFILES_PROPERTY_NAME
 	 * @see #getReservedDefaultProfiles()
+	 *
+	 * 返回通过setDefaultProfiles(String...)显式设置的默认的profiles集合或者如果当前默认的profiles集合
+	 * 只由getReservedDefaultProfiles()保存的默认的profile组成，然后检查DEFAULT_PROFILES_PROPERTY_NAME
+	 * 属性的存在性并且分配它的值给默认的profiles的集合。
 	 */
 	protected Set<String> doGetDefaultProfiles() {
 		synchronized (this.defaultProfiles) {
@@ -317,6 +344,9 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * that may have been added during construction of the environment.
 	 * @see #AbstractEnvironment()
 	 * @see #getReservedDefaultProfiles()
+	 *
+	 * 指定默认启用的profiles集合如果没有其它profiles通过setActiveProfiles启用。
+	 * 调用这个方法移除覆盖任何保存的默认的可能在构造的过程上已经增加的profiles。
 	 */
 	@Override
 	public void setDefaultProfiles(String... profiles) {
@@ -350,6 +380,8 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * Return whether the given profile is active, or if active profiles are empty
 	 * whether the profile should be active by default.
 	 * @throws IllegalArgumentException per {@link #validateProfile(String)}
+	 *
+	 * 返回给定的profile是否是启用的，或者如果启用的profiles是空的，是否profile应该默认的启用。
 	 */
 	protected boolean isProfileActive(String profile) {
 		validateProfile(profile);
@@ -367,6 +399,11 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * @see #acceptsProfiles
 	 * @see #addActiveProfile
 	 * @see #setDefaultProfiles
+	 *
+	 * 检测给定的profile,内部调用在增加启用的profiles之前或默认的profiles之前。
+	 * 子类可以覆盖来暴露对profiles语义更进一步的限制。
+	 * 抛出IllegalArgumentException如果profile是null,空，只有空白符或以profile NOT操作符开头。
+	 *
 	 */
 	protected void validateProfile(String profile) {
 		if (!StringUtils.hasText(profile)) {
@@ -421,6 +458,13 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * returning {@code true} if its value equals "true" in any case.
 	 * @see #IGNORE_GETENV_PROPERTY_NAME
 	 * @see SpringProperties#getFlag
+	 *
+	 * 判断是否抑制System#getenv()/System#getenv(String)访问为了getSystemEnvironment()目的。
+	 * 如果这个方法返回true,一个空的Map将被使用代替普通的系统环境Map,永远试图调用getenv并且因此避免
+	 * 完全管理器警告(如果有的话)。
+	 *
+	 * 默认的实现检查"spring.getenv.ignore"系统属性，
+	 * 返回true如果它的值和"true"相等。
 	 */
 	protected boolean suppressGetenvAccess() {
 		return SpringProperties.getFlag(IGNORE_GETENV_PROPERTY_NAME);
@@ -481,6 +525,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	//---------------------------------------------------------------------
 	// Implementation of ConfigurablePropertyResolver interface
+	// ConfigurablePropertyResolver接口的实现。
 	//---------------------------------------------------------------------
 
 	@Override
@@ -526,6 +571,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	//---------------------------------------------------------------------
 	// Implementation of PropertyResolver interface
+	// PropertyResolver接口的实现
 	//---------------------------------------------------------------------
 
 	@Override
