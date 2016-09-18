@@ -20,6 +20,8 @@ package org.springframework.core.env;
  * {@link Environment} implementation suitable for use in 'standard' (i.e. non-web)
  * applications.
  *
+ * Environment的实现适合应用在'standard'(也就是说非web)应用中。
+ *
  * <p>In addition to the usual functions of a {@link ConfigurableEnvironment} such as
  * property resolution and profile-related operations, this implementation configures two
  * default property sources, to be searched in the following order:
@@ -27,6 +29,10 @@ package org.springframework.core.env;
  * <li>{@linkplain AbstractEnvironment#getSystemProperties() system properties}
  * <li>{@linkplain AbstractEnvironment#getSystemEnvironment() system environment variables}
  * </ul>
+ *
+ * 除了ConfigurableEnvironment的普通功能，例如属性解析和profiled相关的操作，这个实现配置两个默认的属性源，
+ * 以下面的顺序被搜索:
+ *
  *
  * That is, if the key "xyz" is present both in the JVM system properties as well as in
  * the set of environment variables for the current process, the value of key "xyz" from
@@ -36,14 +42,25 @@ package org.springframework.core.env;
  * system properties precedence allows for overriding of environment variables on a
  * per-JVM basis.
  *
+ * 也就是，如果key"xyz"出现在JVM系统属性中和当前线程的环境变量集合中，从系统属性中的key"xyz"的值将返回
+ * 从 environment.getProperty("xyz")的调用中。
+ * 这个顺序被默认的选择，因为系统属性是per-JVM，而环境变更可能是一样的在一个给定的系统中的很多JVM上。
+ * 给定的系统属性优先级允许覆盖环境变量在一个per-JVM的基础上。
+ *
  * <p>These default property sources may be removed, reordered, or replaced; and
  * additional property sources may be added using the {@link MutablePropertySources}
  * instance available from {@link #getPropertySources()}. See
  * {@link ConfigurableEnvironment} Javadoc for usage examples.
  *
+ * 这些默认的属性源可能被删除，重排序，或被替换;并且另外的属性源可以被加入使用MutablePropertySources
+ * 实例。参考Javadoc关于使用案例。
+ *
  * <p>See {@link SystemEnvironmentPropertySource} javadoc for details on special handling
  * of property names in shell environments (e.g. Bash) that disallow period characters in
  * variable names.
+ *
+ * 参考SystemEnvironmentPropertySource的javadoc关于属性名称的特殊处理的详细信息，在变量名称中
+ * 不允许周期字符shell环境中
  *
  * @author Chris Beams
  * @since 3.1
@@ -54,9 +71,11 @@ package org.springframework.core.env;
 public class StandardEnvironment extends AbstractEnvironment {
 
 	/** System environment property source name: {@value} */
+	/** 系统环境属性源名称 */
 	public static final String SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME = "systemEnvironment";
 
 	/** JVM system properties property source name: {@value} */
+	/** JVM系统环境属性源名称 */
 	public static final String SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME = "systemProperties";
 
 
@@ -72,6 +91,10 @@ public class StandardEnvironment extends AbstractEnvironment {
 	 * @see AbstractEnvironment#customizePropertySources(MutablePropertySources)
 	 * @see #getSystemProperties()
 	 * @see #getSystemEnvironment()
+	 *
+	 * 自定义属性源的集合用这些对于任何标准的Java环境:
+	 * 出现在SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME的属性将
+	 * 优先于SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME。
 	 */
 	@Override
 	protected void customizePropertySources(MutablePropertySources propertySources) {
