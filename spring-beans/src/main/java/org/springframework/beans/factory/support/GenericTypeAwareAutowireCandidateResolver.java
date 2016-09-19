@@ -33,9 +33,13 @@ import org.springframework.util.ClassUtils;
  * match with the candidate's type if the dependency is declared as a generic type
  * (e.g. Repository&lt;Customer&gt;).
  *
+ * 基本的AutowireCandidateResolver用候选者的类型执行一个完全的通用类型匹配，如果依赖被声明为一个通用类型。
+ *
  * <p>This is the base class for
  * {@link org.springframework.beans.factory.annotation.QualifierAnnotationAutowireCandidateResolver},
  * providing an implementation all non-annotation-based resolution steps at this level.
+ *
+ * 这是QualifierAnnotationAutowireCandidateResolver的基类，在这个层次上提供了一个所有基于非注解解步骤实现。
  *
  * @author Juergen Hoeller
  * @since 4.0
@@ -67,6 +71,8 @@ public class GenericTypeAwareAutowireCandidateResolver implements AutowireCandid
 	/**
 	 * Match the given dependency type with its generic type information against the given
 	 * candidate bean definition.
+	 *
+	 * 匹配给定的依赖类型用它给定的候选者的bean定义的的通用类型信息。
 	 */
 	protected boolean checkGenericTypeMatch(BeanDefinitionHolder bdHolder, DependencyDescriptor descriptor) {
 		ResolvableType dependencyType = descriptor.getResolvableType();
@@ -152,6 +158,8 @@ public class GenericTypeAwareAutowireCandidateResolver implements AutowireCandid
 	/**
 	 * This implementation always returns {@code null}, leaving suggested value support up
 	 * to subclasses.
+	 *
+	 * 这个实现总是返回null,把建议的值的支持交给子类。
 	 */
 	@Override
 	public Object getSuggestedValue(DependencyDescriptor descriptor) {
@@ -161,6 +169,8 @@ public class GenericTypeAwareAutowireCandidateResolver implements AutowireCandid
 	/**
 	 * This implementation always returns {@code null}, leaving lazy resolution support up
 	 * to subclasses.
+	 *
+	 * 这个实现总是返回null,把懒解析支持交给子类。
 	 */
 	@Override
 	public Object getLazyResolutionProxyIfNecessary(DependencyDescriptor descriptor, String beanName) {
