@@ -27,6 +27,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * earliest moment that the {@link ServletContext} and (optionally) {@link ServletConfig}
  * become available.
  *
+ * ConfigurableEnvironment的规范允许servlet相关的PropertySource对象的初始化在最早的ServletContext
+ * 和可选的ServletConfig变得可用的时刻。
+ *
  * @author Chris Beams
  * @since 3.1.2
  * @see ConfigurableWebApplicationContext#getEnvironment()
@@ -38,6 +41,9 @@ public interface ConfigurableWebEnvironment extends ConfigurableEnvironment {
 	 * org.springframework.core.env.PropertySource.StubPropertySource stub property source}
 	 * instances acting as placeholders with real servlet context/config property sources
 	 * using the given parameters.
+	 *
+	 * 使用给定的参数来替换任何StubPropertySource作为占位符的属性源为真正的servlet context/config 属性源。
+	 *
 	 * @param servletContext the {@link ServletContext} (may not be {@code null})
 	 * @param servletConfig the {@link ServletConfig} ({@code null} if not available)
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources(
