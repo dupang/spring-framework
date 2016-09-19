@@ -24,6 +24,8 @@ import org.springframework.beans.factory.config.DependencyDescriptor;
  * {@link AutowireCandidateResolver} implementation to use when no annotation
  * support is available. This implementation checks the bean definition only.
  *
+ * 当没有注解支持可用时使用的AutowireCandidateResolver实现。这个实现只检查bean定义。
+ *
  * @author Mark Fisher
  * @author Juergen Hoeller
  * @since 2.5
@@ -35,6 +37,10 @@ public class SimpleAutowireCandidateResolver implements AutowireCandidateResolve
 	 * Determine if the provided bean definition is an autowire candidate.
 	 * <p>To be considered a candidate the bean's <em>autowire-candidate</em>
 	 * attribute must not have been set to 'false'.
+	 *
+	 * 判断提供的bean定义是否是一个自动注入的候选者。
+	 * 要被认为是一个候选者bean的autowire-candidate属性必须不能被设置为'false'。
+	 *
 	 */
 	@Override
 	public boolean isAutowireCandidate(BeanDefinitionHolder bdHolder, DependencyDescriptor descriptor) {
