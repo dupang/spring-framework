@@ -33,9 +33,15 @@ import org.springframework.web.context.ConfigurableWebEnvironment;
  * applications. All web-related (servlet-based) {@code ApplicationContext} classes
  * initialize an instance by default.
  *
+ * 被基于Servlet的web应用使用的Environment实现。所有web相关的ApplicationContext类默认地初始化一个
+ * 实例。
+ *
  * <p>Contributes {@code ServletConfig}, {@code ServletContext}, and JNDI-based
  * {@link PropertySource} instances. See {@link #customizePropertySources} method
  * documentation for details.
+ *
+ * 捐献ServletConfig，ServletContext和基于JNDI的PropertySource实例。参考customizePropertySources
+ * 方法文档关于更详细的信息。
  *
  * @author Chris Beams
  * @since 3.1
@@ -44,12 +50,15 @@ import org.springframework.web.context.ConfigurableWebEnvironment;
 public class StandardServletEnvironment extends StandardEnvironment implements ConfigurableWebEnvironment {
 
 	/** Servlet context init parameters property source name: {@value} */
+	/** servlet上下文初始化参数属性源名称 */
 	public static final String SERVLET_CONTEXT_PROPERTY_SOURCE_NAME = "servletContextInitParams";
 
 	/** Servlet config init parameters property source name: {@value} */
+	/** servlet配置初始化参数属性源名称 */
 	public static final String SERVLET_CONFIG_PROPERTY_SOURCE_NAME = "servletConfigInitParams";
 
 	/** JNDI property source name: {@value} */
+	/** JNDI属性源名称 */
 	public static final String JNDI_PROPERTY_SOURCE_NAME = "jndiProperties";
 
 
@@ -78,6 +87,21 @@ public class StandardServletEnvironment extends StandardEnvironment implements C
 	 * @see org.springframework.jndi.JndiPropertySource
 	 * @see org.springframework.context.support.AbstractApplicationContext#initPropertySources
 	 * @see #initPropertySources(ServletContext, ServletConfig)
+	 *
+	 * 用这些被子类提供的和这些对标准的基于servlet的环境的来自定义属性源集合。
+	 * SERVLET_CONFIG_PROPERTY_SOURCE_NAME
+	 * SERVLET_CONTEXT_PROPERTY_SOURCE_NAME
+	 * JNDI_PROPERTY_SOURCE_NAME
+	 *
+	 * 出现在SERVLET_CONFIG_PROPERTY_SOURCE_NAME中的属性将优先于出现SERVLET_CONTEXT_PROPERTY_SOURCE_NAME的，并且
+	 * 出现在上面两个中的一个的属性优先于出现于JNDI_PROPERTY_SOURCE_NAME的属性。
+	 *
+	 * 在上面任何一个中的属性将优先于系统属性和环境变量由StandardEnvironment父类提供的。
+	 *
+	 * servlet相关的属性源在这个阶段被作为StubPropertySource加入，并且将被完全初始化一旦走在的ServletContext对象变得可用。
+	 *
+	 *
+	 *
 	 */
 	@Override
 	protected void customizePropertySources(MutablePropertySources propertySources) {
