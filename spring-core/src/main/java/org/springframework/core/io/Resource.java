@@ -31,7 +31,7 @@ import java.net.URL;
  * physical form, but a URL or File handle can just be returned for
  * certain resources. The actual behavior is implementation-specific.
  *
- * 一个InputStream可以被打开为每一个资源，如果它以物理形式存在，但是一个URL或文件句柄
+ * 一个InputStream可以被打开为所有可能的一个资源，如果它以物理形式存在，但是一个URL或文件句柄
  * 仅仅可以作为特定的资源返回。真实的行为是实现相关的。
  *
  * @author Juergen Hoeller
@@ -74,7 +74,7 @@ public interface Resource extends InputStreamSource {
 	 * 表示是否这个资源可以通过getInputStream读取。
 	 * 对于普通的资源描述符将会是true;
 	 * 注意真正的内容读可能仍然失败当试图读的时候。
-	 * 然而，一个false的值是一个明确的表示资源内容不能被读。
+	 * 然而，一个false的值是一个资源内容不能被读的明确表示。
 	 */
 	default boolean isReadable() {
 		return true;
@@ -87,7 +87,7 @@ public interface Resource extends InputStreamSource {
 	 * <p>Will be {@code false} for typical resource descriptors.
 	 * 表示是否这个资源表示一个带有打开流的句柄。
 	 * 如果true,InputStreamg不能多次读取，
-	 * 并且必须读和关闭来避免资源泄漏。
+	 * 并且必须读并且关闭来避免资源泄漏。
 	 * 对于典型的资源描述符将是false。
 	 */
 	default boolean isOpen() {
@@ -176,8 +176,8 @@ public interface Resource extends InputStreamSource {
 	 * from their {@code toString} method.
 	 * @see Object#toString()
 	 *
-	 * 返回这个资源的描述符，被用于错误输出当使用资源的时候。
-	 * 实现也被鼓励从toString()方法返回这个值。
+	 * 返回这个资源的描述符，当使用资源的时候被用于错误输出。
+	 * 鼓励实现也从toString()方法返回这个值。
 	 *
 	 */
 	String getDescription();
