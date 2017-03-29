@@ -52,7 +52,7 @@ public interface PropertyResolver {
 	 * Return the property value associated with the given key, or
 	 * {@code defaultValue} if the key cannot be resolved.
 	 *
-	 * 返回和给定的key关联的属性值，或者默认仩如果key不能被解析。
+	 * 返回和给定的key关联的属性值，或者默认值如果key不能被解析。
 	 *
 	 * @param key the property name to resolve
 	 * @param defaultValue the default value to return if no value is found
@@ -106,7 +106,7 @@ public interface PropertyResolver {
 	 * property values as resolved by {@link #getProperty}. Unresolvable placeholders with
 	 * no default value are ignored and passed through unchanged.
 	 *
-	 * 解析给定的文本中的${...}占位符，用相应的被getProperty解析的属性值替换他们。没有默认值的不能解析的占位符
+	 * 解析指定的文本中的${...}占位符，用相应的被getProperty解析的属性值替换他们。没有默认值的不能解析的占位符
 	 * 被忽略并且原封不动地传递下去。
 	 *
 	 * @param text the String to resolve
