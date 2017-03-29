@@ -22,7 +22,7 @@ package org.springframework.core.env;
  * <em>properties</em>. Methods related to property access are exposed via the
  * {@link PropertyResolver} superinterface.
  *
- * 代表当前应用正在运行的环球的接口。
+ * 代表当前应用正在运行的环境的接口。
  * 典型两个关键的应用环境:profiles和properties。属性相关的方法通过PropertyResolver父接口暴露。
  *
  * <p>A <em>profile</em> is a named, logical group of bean definitions to be registered
@@ -135,7 +135,7 @@ public interface Environment extends PropertyResolver {
 	 * For example, <pre class="code">env.acceptsProfiles("p1", "!p2")</pre> will
 	 * return {@code true} if profile 'p1' is active or 'p2' is not active.
 	 *
-	 * 返回是否一个或多个给定的profile启用或在没有显式的启用profile的情况下，是否一个或多个profile被包含在
+	 * 返回是否一个或多个指定的profile被启用或在没有显式的启用profile的情况下，是否一个或多个profile被包含在
 	 * 默认的profile集合中。如果一个proifle以！开头，逻辑是相反的，
 	 * 也就是说，方法将返回true如果给定的proifle没有启用。
 	 * 例如，
