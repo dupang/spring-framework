@@ -16,10 +16,10 @@
 
 package org.springframework.core.io;
 
+import org.springframework.util.Assert;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.springframework.util.Assert;
 
 /**
  * {@link Resource} implementation for a given {@link InputStream}.
@@ -27,7 +27,7 @@ import org.springframework.util.Assert;
  * is applicable. In particular, prefer {@link ByteArrayResource} or any of the
  * file-based {@code Resource} implementations where possible.
  *
- * 给定InputStream的Resource实现，只应该在没有其它指定的可用的Resource实现的时候被使用。
+ * 指定的InputStream的Resource实现，只应该在没有其它指定的可用的Resource实现的时候被使用。
  * 特别地，优先使用ByteArrayResource或任何基于文件的Resource实现。
  *
  * <p>In contrast to other {@code Resource} implementations, this is a descriptor
@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
  * keep the resource descriptor somewhere, or if you need to read from a stream
  * multiple times.
  *
- * 相对于其它Resource实现，这个一个为已经打开的资源的描述符 - 因为从isOpen()中返回true。不要使用一个
+ * 相对于其它Resource实现，这是一个为已经打开的资源的描述符 - 因此从isOpen()中返回true。不要使用一个
  * InputStreamResource如果你需要在一些地方保存资源的描述符或如果你需要从一个流中多次读取。
  *
  * @author Juergen Hoeller
