@@ -24,8 +24,8 @@ import org.springframework.core.convert.support.ConfigurableConversionService;
  * {@link org.springframework.core.convert.ConversionService ConversionService}
  * used when converting property values from one type to another.
  *
- * 如果不是所有的PropertyResolver类型被大部分实现的配置接口。提供工具用于访问和自定义ConversionService
- * 当转换属性值从一种类型到另一种类型时被使用。
+ * 如果不是所有的PropertyResolver类型被大部分实现的配置接口。提供用于
+ * 当从一种类型到另一种类型转换属性值时被用来访问和自定义ConversionService的工具。
  *
  * @author Chris Beams
  * @since 3.1
@@ -45,7 +45,7 @@ public interface ConfigurablePropertyResolver extends PropertyResolver {
 	 * @see org.springframework.core.convert.converter.ConverterRegistry#addConverter
 	 *
 	 * 返回当在属性值上执行类型转换时使用的ConfigurableConversionService。
-	 * 返回的转换服务的可配置属性允许方便的添加和删除单独的Converter实例:
+	 * 返回的转换服务的可配置性允许方便的添加和删除单独的Converter实例:
 	 */
 	ConfigurableConversionService getConversionService();
 
@@ -76,7 +76,7 @@ public interface ConfigurablePropertyResolver extends PropertyResolver {
 	/**
 	 * Set the suffix that placeholders replaced by this resolver must end with.
 	 *
-	 * 设置被这个解析器替换的占位符必须开头的后缀。
+	 * 设置被这个解析器替换的占位符必须结束的后缀。
 	 */
 	void setPlaceholderSuffix(String placeholderSuffix);
 
