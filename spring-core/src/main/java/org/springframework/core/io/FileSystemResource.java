@@ -16,6 +16,9 @@
 
 package org.springframework.core.io;
 
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,9 +28,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
 
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-
 /**
  * {@link Resource} implementation for {@code java.io.File} handles.
  * Supports resolution as a {@code File} and also as a {@code URL}.
@@ -35,7 +35,7 @@ import org.springframework.util.StringUtils;
  *
  * 为java.io.File句柄的Resource实现。
  * 支持作为文件和URL的解析。
- * 实现的扩展的WritableResource接口。
+ * 实现了扩展的WritableResource接口。
  *
  * @author Juergen Hoeller
  * @since 28.12.2003
