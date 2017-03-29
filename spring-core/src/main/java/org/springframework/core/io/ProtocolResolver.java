@@ -38,7 +38,7 @@ public interface ProtocolResolver {
 	 * Resolve the given location against the given resource loader
 	 * if this implementation's protocol matches.
 	 *
-	 * 解析给定的路径用给定的资源加载器。如果这个实现的协议匹配。
+	 * 用指定的资源加载器解析指定的路径。如果这个实现的协议匹配。
 	 *
 	 * @param location the user-specified resource location
 	 * @param resourceLoader the associated resource loader
