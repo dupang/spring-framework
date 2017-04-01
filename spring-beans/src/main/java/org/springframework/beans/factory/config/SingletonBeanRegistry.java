@@ -25,7 +25,7 @@ package org.springframework.beans.factory.config;
  * <p>The {@link ConfigurableBeanFactory} interface extends this interface.
  *
  * 共享的bean实例定义的一个注册器的接口。
- * 可以被BeanFactory的实现者实现为了暴露他们的用一种统一的单例管理方式。
+ * 可以被BeanFactory的实现者实现为了用一种统一的方式暴露他们的单例管理方式。
  * ConfigurableBeanFactory接口继承了这个接口中。
  *
  * @author Juergen Hoeller
@@ -79,7 +79,7 @@ public interface SingletonBeanRegistry {
 	 * 只检查已经初始化过的单例;不返回一个还没有初始化的bean的定义的单例。
 	 * 这个方法的主要目的是访问手动注册的单例(参考registerSingleton);也可以被用来访问被已经创建的bean定义的单例。
 	 * 注意:这个查找方法不关心FactoryBean前缀或别名。
-	 * 你需要解析标准bean名字在获取单例实例之前。
+	 * 在获取单例实例之前你需要解析标准bean名字。
 	 *
 	 * @param beanName the name of the bean to look for
 	 * @return the registered singleton object, or {@code null} if none found
@@ -113,7 +113,7 @@ public interface SingletonBeanRegistry {
 	 * 使用BeanFactory的containsBean为通用检查是否工厂知道给定名字的bean(是否手工注册单例或被bean定义创建),也检查祖先工厂。
 	 *
 	 * 注意:这个查找方法不关心FactoryBean前缀或别名。
-	 * 你需要解析标准bean名字在获取单例实例之前。
+	 * 在获取单例实例之前你需要解析标准bean名字。
 	 * @param beanName the name of the bean to look for
 	 * @return if this bean factory contains a singleton instance with the given name
 	 * @see #registerSingleton
