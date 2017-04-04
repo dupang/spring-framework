@@ -16,6 +16,10 @@
 
 package org.springframework.core.io;
 
+import org.springframework.core.NestedIOException;
+import org.springframework.util.Assert;
+import org.springframework.util.ResourceUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,21 +28,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.springframework.core.NestedIOException;
-import org.springframework.util.Assert;
-import org.springframework.util.ResourceUtils;
-
 /**
  * Convenience base class for {@link Resource} implementations,
  * pre-implementing typical behavior.
  *
- * Resource实现的方便的基类，预实现了典型行为。
+ * Resource实现的公共的基类，预实现了典型行为。
  *
  * <p>The "exists" method will check whether a File or InputStream can
  * be opened; "isOpen" will always return false; "getURL" and "getFile"
  * throw an exception; and "toString" will return the description.
  *
- * exists方法将检查是否一个文件或InputStream可以被打开; isOpen将总是返回false;
+ * exists方法将检查一个文件或InputStream是否可以被打开; isOpen将总是返回false;
  * getURL和getFile抛出一个异常;toString将返回描述。
  *
  * @author Juergen Hoeller
@@ -203,7 +203,7 @@ public abstract class AbstractResource implements Resource {
 	/**
 	 * This implementation throws a FileNotFoundException, assuming
 	 * that relative resources cannot be created for this resource.
-	 * 这个实现抛出一个FileNotFoundException，创设相对的资源不能被创建。
+	 * 这个实现抛出一个FileNotFoundException，假设相对的资源不能被创建。
 	 */
 	@Override
 	public Resource createRelative(String relativePath) throws IOException {

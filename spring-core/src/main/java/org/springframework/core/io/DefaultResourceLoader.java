@@ -59,7 +59,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * @see java.lang.Thread#getContextClassLoader()
 	 *
 	 * 创建一个新的DefaultResourceLoader。
-	 * ClassLoader访问将会发生使用线程上下文类加载器在这个ResourceLoader的初始化阶段。
+	 * 在这个ResourceLoader的初始化阶段ClassLoader将会使用线程上下文类加载器访问。
 	 */
 	public DefaultResourceLoader() {
 		this.classLoader = ClassUtils.getDefaultClassLoader();
@@ -83,7 +83,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * class loader at the time of this ResourceLoader's initialization.
 	 *
 	 * 指定用于加载类路径的资源的ClassLoader或null来使用线程上下文类加载器在真正的访问资源的时候。
-	 * 默认的是ClassLoader访问将会发生使用线程上下文类加载器在这个ResourceLoader的初始化阶段。
+	 * 默认的是在这个ResourceLoader的初始化阶段ClassLoader将会使用线程上下文类加载器访问。
 	 */
 	public void setClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
@@ -112,7 +112,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * @see #getProtocolResolvers()
 	 *
 	 * 用这个资源加载器注册给定的解析器，允许另外协议被处理。
-	 * 任何这样解析者将被调用在这个加载器的标准的解析规则之前。它可能也因此覆盖任何默认的规则。
+	 * 在这个加载器的标准的解析规则之前任何这样解析者将被调用。它可能也因此覆盖任何默认的规则。
 	 */
 	public void addProtocolResolver(ProtocolResolver resolver) {
 		Assert.notNull(resolver, "ProtocolResolver must not be null");
@@ -167,8 +167,8 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * be appropriate for standalone implementations but can be overridden,
 	 * e.g. for implementations targeted at a Servlet container.
 	 *
-	 * 为在给定的路径上的资源返回一个资源处理器。
-	 * 默认的实现支持类路径位置。这地于单独的实现可能是合适的但是可以被覆盖，例如，
+	 * 为在给定的路径上的资源返回一个资源句柄。
+	 * 默认的实现支持类路径位置。这对于单独的实现可能是合适的但是可以被覆盖，例如，
 	 * 在一个Servlet容器的实现，
 	 * @param path the path to the resource
 	 * @return the corresponding Resource handle

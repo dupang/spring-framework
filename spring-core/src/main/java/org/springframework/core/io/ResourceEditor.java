@@ -16,13 +16,13 @@
 
 package org.springframework.core.io;
 
-import java.beans.PropertyEditorSupport;
-import java.io.IOException;
-
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 
 /**
  * {@link java.beans.PropertyEditor Editor} for {@link Resource}
@@ -123,7 +123,7 @@ public class ResourceEditor extends PropertyEditorSupport {
 	 * Resolve the given path, replacing placeholders with corresponding
 	 * property values from the {@code environment} if necessary.
 	 *
-	 * 解析给定的路径，如果必要从environment用相应的属性值替换占位符。
+	 * 解析指定的路径，如果必要从environment用相应的属性值替换占位符。
 	 * @param path the original file path
 	 * @return the resolved file path
 	 * @see PropertyResolver#resolvePlaceholders

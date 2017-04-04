@@ -16,6 +16,8 @@
 
 package org.springframework.core.io;
 
+import org.springframework.util.Assert;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,8 +30,6 @@ import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.springframework.util.Assert;
-
 /**
  * {@link Resource} implementation for {@code java.nio.file.Path} handles.
  * Supports resolution as File, and also as URL.
@@ -37,7 +37,7 @@ import org.springframework.util.Assert;
  *
  * java.nio.file.Path句柄的资源实现。
  * 支持作为文件和URL的解析。
- * 实现的扩展的WritableResource接口。
+ * 实现了扩展的WritableResource接口。
  *
  * @author Philippe Marschall
  * @author Juergen Hoeller
