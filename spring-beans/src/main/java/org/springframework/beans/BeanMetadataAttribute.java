@@ -23,7 +23,7 @@ import org.springframework.util.ObjectUtils;
  * Holder for a key-value style attribute that is part of a bean definition.
  * Keeps track of the definition source in addition to the key-value pair.
  *
- * key-value形式的属性持有者是bean定义的一部分。除了key-value对之外跟踪定义源。
+ * 是bean定义的一部分的key-value形式的属性持有者。除了key-value对之外跟踪定义源。
  *
  * @author Juergen Hoeller
  * @since 2.5
