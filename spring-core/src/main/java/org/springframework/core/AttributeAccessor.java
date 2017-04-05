@@ -33,7 +33,7 @@ public interface AttributeAccessor {
 	 * <p>In general, users should take care to prevent overlaps with other
 	 * metadata attributes by using fully-qualified names, perhaps using
 	 * class or package names as prefix.
-	 * 设置被名称定义的属性为提供的值。
+	 * 设置name属性为提供的值。
 	 * 如果值是null,属性被移除。通常，用户应该通过使用全限定名小心避免和其它元数据属性重叠，或许使用类或包名作为前缀。
 	 * @param name the unique attribute key
 	 * @param value the attribute value to be attached
