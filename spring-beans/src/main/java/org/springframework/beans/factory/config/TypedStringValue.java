@@ -26,8 +26,14 @@ import org.springframework.util.ObjectUtils;
  * in order to explicitly specify a target type for a String value,
  * for example for collection elements.
  *
+ * 字符串值的持有者。可以被加入到bean定义中来显式地指定一个目标类型。
+ * 例如集合元素。
+ *
  * <p>This holder will just store the String value and the target type.
  * The actual conversion will be performed by the bean factory.
+ *
+ * 这个持有者将只存储字符值和目标类型。
+ * 真正的转换将被bean工厂执行。
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -49,6 +55,7 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	/**
 	 * Create a new {@link TypedStringValue} for the given String value.
+	 * 哦指定的字符串值创建一个新的TypedStringValue
 	 * @param value the String value
 	 */
 	public TypedStringValue(String value) {
@@ -58,6 +65,8 @@ public class TypedStringValue implements BeanMetadataElement {
 	/**
 	 * Create a new {@link TypedStringValue} for the given String value
 	 * and target type.
+	 *
+	 * 为指定的字符值和目标类型创建一个新的TypedStringValue。
 	 * @param value the String value
 	 * @param targetType the type to convert to
 	 */
@@ -82,6 +91,10 @@ public class TypedStringValue implements BeanMetadataElement {
 	 * Set the String value.
 	 * <p>Only necessary for manipulating a registered value,
 	 * for example in BeanFactoryPostProcessors.
+	 *
+	 * 设置字符串值。只对操作一个注册值是必需的，
+	 * 例如在BeanFactoryPostProcessors中。
+	 *
 	 * @see PropertyPlaceholderConfigurer
 	 */
 	public void setValue(String value) {
@@ -99,6 +112,10 @@ public class TypedStringValue implements BeanMetadataElement {
 	 * Set the type to convert to.
 	 * <p>Only necessary for manipulating a registered value,
 	 * for example in BeanFactoryPostProcessors.
+	 *
+	 * 设置要转换的类型。只对操作一个注册值是必需的，
+	 * 例如在BeanFactoryPostProcessors中。
+	 *
 	 * @see PropertyPlaceholderConfigurer
 	 */
 	public void setTargetType(Class<?> targetType) {
@@ -108,6 +125,8 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	/**
 	 * Return the type to convert to.
+	 *
+	 * 返回要转换的类型
 	 */
 	public Class<?> getTargetType() {
 		Object targetTypeValue = this.targetType;
@@ -119,6 +138,7 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	/**
 	 * Specify the type to convert to.
+	 * 设置要转换的类型
 	 */
 	public void setTargetTypeName(String targetTypeName) {
 		Assert.notNull(targetTypeName, "'targetTypeName' must not be null");
@@ -127,6 +147,8 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	/**
 	 * Return the type to convert to.
+	 *
+	 * 返回要转换的类型
 	 */
 	public String getTargetTypeName() {
 		Object targetTypeValue = this.targetType;
@@ -140,6 +162,8 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	/**
 	 * Return whether this typed String value carries a target type .
+	 *
+	 * 返回是否这个字符串值携带一个目标类型。
 	 */
 	public boolean hasTargetType() {
 		return (this.targetType instanceof Class);
@@ -149,6 +173,10 @@ public class TypedStringValue implements BeanMetadataElement {
 	 * Determine the type to convert to, resolving it from a specified class name
 	 * if necessary. Will also reload a specified Class from its name when called
 	 * with the target type already resolved.
+	 *
+	 * 确定要转换的类型，从一个指定一的类名称中解析它如果有必要。也将重新加载 一个指定的类
+	 * 它他的名称中，当被调用用已经解析的目标类型。
+	 *
 	 * @param classLoader the ClassLoader to use for resolving a (potential) class name
 	 * @return the resolved type to convert to
 	 * @throws ClassNotFoundException if the type cannot be resolved
@@ -166,6 +194,9 @@ public class TypedStringValue implements BeanMetadataElement {
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
 	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 *
+	 * 为这个元数据元素设置配置的源对象。
+	 * 具体的对象类型将依赖被使用的配置机制。
 	 */
 	public void setSource(Object source) {
 		this.source = source;
@@ -178,6 +209,8 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	/**
 	 * Set the type name as actually specified for this particular value, if any.
+	 *
+	 * 为特定的值设置类型名称作为直接被指定的，如果有的话。
 	 */
 	public void setSpecifiedTypeName(String specifiedTypeName) {
 		this.specifiedTypeName = specifiedTypeName;
@@ -193,6 +226,8 @@ public class TypedStringValue implements BeanMetadataElement {
 	/**
 	 * Mark this value as dynamic, i.e. as containing an expression
 	 * and hence not being subject to caching.
+	 *
+	 * 标记这个值为动态的，也就是说，作为包含一个表达式而且因此不被缓存。
 	 */
 	public void setDynamic() {
 		this.dynamic = true;
