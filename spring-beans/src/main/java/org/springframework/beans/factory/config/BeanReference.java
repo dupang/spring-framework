@@ -23,9 +23,16 @@ import org.springframework.beans.BeanMetadataElement;
  * This interface does not necessarily imply a reference to an actual bean
  * instance; it just expresses a logical reference to the name of a bean.
  *
+ * 以一种抽象的模式暴露一个指向bean名称的引用的接口。
+ * 这个接口没必要表示一个直接bean实例的引用。
+ * 这只表示一个bean名称的逻辑引用。
+ *
  * <p>Serves as common interface implemented by any kind of bean reference
  * holder, such as {@link RuntimeBeanReference RuntimeBeanReference} and
  * {@link RuntimeBeanNameReference RuntimeBeanNameReference}.
+ *
+ * 作为被任何bean引用持有者实现的通用接口服务。例如RuntimeBeanReference
+ * 和RuntimeBeanNameReference。
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -34,6 +41,8 @@ public interface BeanReference extends BeanMetadataElement {
 
 	/**
 	 * Return the target bean name that this reference points to (never {@code null}).
+	 *
+	 * 返回这个引用指向的目标bean名称。
 	 */
 	String getBeanName();
 
