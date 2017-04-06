@@ -16,19 +16,23 @@
 
 package org.springframework.beans.factory.support;
 
+import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * Extension of MethodOverride that represents an arbitrary
  * override of a method by the IoC container.
  *
+ * MethodOverride的扩展表示一个被IoC容器覆盖的任何方法。
+ *
  * <p>Any non-final method can be overridden, irrespective of its
  * parameters and return types.
+ *
+ * 任何非final的方法可以被覆盖，不关它的参数和返回类型。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -63,6 +67,9 @@ public class ReplaceOverride extends MethodOverride {
 	/**
 	 * Add a fragment of a class string, like "Exception"
 	 * or "java.lang.Exc", to identify a parameter type.
+	 *
+	 * 增加一个string片断，就像"Exception"或"java.lang.Exc"，来标示一个参数类型。
+	 *
 	 * @param identifier a substring of the fully qualified class name
 	 */
 	public void addTypeIdentifier(String identifier) {
