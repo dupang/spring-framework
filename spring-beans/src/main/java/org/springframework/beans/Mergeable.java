@@ -20,6 +20,8 @@ package org.springframework.beans;
  * Interface representing an object whose value set can be merged with
  * that of a parent object.
  *
+ * 表示一个对象的接口，它的值可以被合并和父对象。
+ *
  * @author Rob Harrop
  * @since 2.0
  * @see org.springframework.beans.factory.support.ManagedSet
@@ -31,6 +33,7 @@ public interface Mergeable {
 
 	/**
 	 * Is merging enabled for this particular instance?
+	 * 是否启用了合并为这个特定的实例。
 	 */
 	boolean isMergeEnabled();
 
@@ -38,6 +41,10 @@ public interface Mergeable {
 	 * Merge the current value set with that of the supplied object.
 	 * <p>The supplied object is considered the parent, and values in
 	 * the callee's value set must override those of the supplied object.
+	 *
+	 * 和提供的对象合并当前的值集合。
+	 * 提供的对象被当作父，并且在调用者的值集合必需覆盖提供的对象中的值。
+	 *
 	 * @param parent the object to merge with
 	 * @return the result of the merge operation
 	 * @throws IllegalArgumentException if the supplied parent is {@code null}
