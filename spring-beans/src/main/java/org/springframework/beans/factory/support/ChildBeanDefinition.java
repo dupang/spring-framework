@@ -24,6 +24,9 @@ import org.springframework.util.ObjectUtils;
  * Bean definition for beans which inherit settings from their parent.
  * Child bean definitions have a fixed dependency on a parent bean definition.
  *
+ * 从父亲继承设置的bean的bean定义。
+ * 孩子bean定义对父bean定义有固定的依赖
+ *
  * <p>A child bean definition will inherit constructor argument values,
  * property values and method overrides from the parent, with the option
  * to add new values. If init method, destroy method and/or static factory
@@ -31,11 +34,19 @@ import org.springframework.util.ObjectUtils;
  * The remaining settings will <i>always</i> be taken from the child definition:
  * depends on, autowire mode, dependency check, singleton, lazy init.
  *
+ * 一个bean定义将继承构建参数值，属性值和方法，可以增加新值。如果批定了
+ * init方法，destory方法和静态工厂方法，他们将覆盖相应的父设置。
+ * 其它的设置将总是从孩子定义中获取：依赖，自动注入模式，依赖检查，单例，懒加载。
+ *
  * <p><b>NOTE:</b> Since Spring 2.5, the preferred way to register bean
  * definitions programmatically is the {@link GenericBeanDefinition} class,
  * which allows to dynamically define parent dependencies through the
  * {@link GenericBeanDefinition#setParentName} method. This effectively
  * supersedes the ChildBeanDefinition class for most use cases.
+ *
+ * 注意:从Spring2.5开始，注册bean定义的首选方式是GenericBeanDefinition类，
+ * 它允许动态地定义父依赖通过setParentName方法。在这很多使用场景中有效地
+ * 替换了ChildBeanDefinition。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
