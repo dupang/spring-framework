@@ -16,15 +16,6 @@
 
 package org.springframework.beans.factory.support;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyAccessor;
@@ -38,11 +29,25 @@ import org.springframework.util.DefaultPropertiesPersister;
 import org.springframework.util.PropertiesPersister;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
 /**
  * Bean definition reader for a simple properties format.
  *
+ * 简单的属性格式的Bean定义读取器。
+ *
  * <p>Provides bean definition registration methods for Map/Properties and
  * ResourceBundle. Typically applied to a DefaultListableBeanFactory.
+ *
+ * 为Mpa/Properties和ResourceBundle提供了bean定义注册方法。通常应用于一个
+ * DefaultListableBeanFactory。
  *
  * <p><b>Example:</b>
  *
@@ -78,17 +83,23 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 	/**
 	 * Value of a T/F attribute that represents true.
 	 * Anything else represents false. Case seNsItive.
+	 *
+	 * 表示true的T/F属性值。
+	 * 其它任何表示false.
 	 */
 	public static final String TRUE_VALUE = "true";
 
 	/**
 	 * Separator between bean name and property name.
 	 * We follow normal Java conventions.
+	 * bean名称和属性名之间的分隔符。
+	 * 我们遵照通常的Java规范。
 	 */
 	public static final String SEPARATOR = ".";
 
 	/**
 	 * Special key to distinguish {@code owner.(class)=com.myapp.MyClass}-
+	 *
 	 */
 	public static final String CLASS_KEY = "(class)";
 
@@ -166,6 +177,13 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 	 * <p>Strictly speaking, the rule that a default parent setting does
 	 * not apply to a bean definition that carries a class is there for
 	 * backwards compatibility reasons. It still matches the typical use case.
+	 *
+	 * 为这个bean工厂设置默认的父bean。
+	 * 如果被这个工厂处理的一个孩子bean定义没有提供父和class属性，这个默认值将会被
+	 * 使用。可以被用来定义带有默认view类和所有view的普通属性的父。
+	 * 定义了自己的父或携带他们自己的类的View定义可以覆盖这个逻辑。
+	 * 严格来讲，为了向后兼容的原因，这里的默认父设置不会应用到持有class的bean定义中。
+	 * 它仍然匹配普通的用例。
 	 */
 	public void setDefaultParentBean(String defaultParentBean) {
 		this.defaultParentBean = defaultParentBean;
@@ -173,6 +191,7 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 
 	/**
 	 * Return the default parent bean for this bean factory.
+	 * 返回这个bean工厂的默认父bean。
 	 */
 	public String getDefaultParentBean() {
 		return this.defaultParentBean;
@@ -181,6 +200,10 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 	/**
 	 * Set the PropertiesPersister to use for parsing properties files.
 	 * The default is DefaultPropertiesPersister.
+	 *
+	 * 返回用来解析属性文件的PropertiesPersister。
+	 * 默认的是DefaultPropertiesPersister。
+	 *
 	 * @see org.springframework.util.DefaultPropertiesPersister
 	 */
 	public void setPropertiesPersister(PropertiesPersister propertiesPersister) {
@@ -199,6 +222,7 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 	/**
 	 * Load bean definitions from the specified properties file,
 	 * using all property keys (i.e. not filtering by prefix).
+	 * 从指定的属性文件中加载bean定义，使用所有属性keys.(也就是说不过滤前缀)
 	 * @param resource the resource descriptor for the properties file
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
@@ -211,6 +235,7 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 
 	/**
 	 * Load bean definitions from the specified properties file.
+	 * 从指定的属性文件中加载bean定义
 	 * @param resource the resource descriptor for the properties file
 	 * @param prefix a filter within the keys in the map: e.g. 'beans.'
 	 * (can be empty or {@code null})
@@ -268,6 +293,8 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 	/**
 	 * Register bean definitions contained in a resource bundle,
 	 * using all property keys (i.e. not filtering by prefix).
+	 *
+	 * 注册包含在资源束中的bean定义。
 	 * @param rb the ResourceBundle to load from
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
