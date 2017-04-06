@@ -16,15 +16,17 @@
 
 package org.springframework.beans.factory.support;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.springframework.beans.BeanMetadataElement;
 import org.springframework.beans.Mergeable;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Tag collection class used to hold managed Map values, which may
  * include runtime bean references (to be resolved into bean objects).
+ *
+ * 标签集合类被用来持有管理的Mpa值，它可能包含运行时bean引用(被解析为bean对象)。
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -53,6 +55,9 @@ public class ManagedMap<K, V> extends LinkedHashMap<K, V> implements Mergeable, 
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
 	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 *
+	 * 设置为这个元数据元素的配置源对象。
+	 * 对象的具体类型将依赖使用的配置机制。
 	 */
 	public void setSource(Object source) {
 		this.source = source;
@@ -65,6 +70,8 @@ public class ManagedMap<K, V> extends LinkedHashMap<K, V> implements Mergeable, 
 
 	/**
 	 * Set the default key type name (class name) to be used for this map.
+	 *
+	 * 设置这个map被使用的默认key类型名称。
 	 */
 	public void setKeyTypeName(String keyTypeName) {
 		this.keyTypeName = keyTypeName;
@@ -72,6 +79,7 @@ public class ManagedMap<K, V> extends LinkedHashMap<K, V> implements Mergeable, 
 
 	/**
 	 * Return the default key type name (class name) to be used for this map.
+	 * 返回这个map被使用的默认元素类型名称。
 	 */
 	public String getKeyTypeName() {
 		return this.keyTypeName;
@@ -79,6 +87,7 @@ public class ManagedMap<K, V> extends LinkedHashMap<K, V> implements Mergeable, 
 
 	/**
 	 * Set the default value type name (class name) to be used for this map.
+	 * 设置这个map被使用的默认值类型名称。
 	 */
 	public void setValueTypeName(String valueTypeName) {
 		this.valueTypeName = valueTypeName;
@@ -86,6 +95,7 @@ public class ManagedMap<K, V> extends LinkedHashMap<K, V> implements Mergeable, 
 
 	/**
 	 * Return the default value type name (class name) to be used for this map.
+	 * 返回这个map被使用的默认值类型名称。
 	 */
 	public String getValueTypeName() {
 		return this.valueTypeName;
@@ -94,6 +104,8 @@ public class ManagedMap<K, V> extends LinkedHashMap<K, V> implements Mergeable, 
 	/**
 	 * Set whether merging should be enabled for this collection,
 	 * in case of a 'parent' collection value being present.
+	 *
+	 * 设置是否合并应该被启用为这个集合，在'父'集合出现的时候。
 	 */
 	public void setMergeEnabled(boolean mergeEnabled) {
 		this.mergeEnabled = mergeEnabled;
