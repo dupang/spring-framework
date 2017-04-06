@@ -16,15 +16,19 @@
 
 package org.springframework.beans.factory.support;
 
+import org.springframework.util.ObjectUtils;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
-import org.springframework.util.ObjectUtils;
 
 /**
  * Represents an override of a method that looks up an object in the same IoC context.
  *
+ * 表示一个方法的覆盖，它在相同的IoC上下文中寻找对象。
+ *
  * <p>Methods eligible for lookup override must not have arguments.
+ *
+ * 用来查找覆盖的合适方法必须不能有参数。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
